@@ -1,0 +1,6 @@
+{
+  "buttons": {
+    "changeLanguage": "Змінити мову на {{lang}}",
+    "theme": "Перемкнути тему"
+  }
+}

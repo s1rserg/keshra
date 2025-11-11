@@ -1,0 +1,6 @@
+{
+  "buttons": {
+    "changeLanguage": "Change language to {{lang}}",
+    "theme": "Toggle theme"
+  }
+}
