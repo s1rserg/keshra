@@ -32,8 +32,8 @@ export interface PrivateChatListResponse {
   id: number;
   title: string;
   type: ChatType;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   lastMessageAuthor?: Nullable<string>;
   lastMessagePreview?: Nullable<string>;
 }
@@ -42,16 +42,16 @@ export interface PrivateChatResponse {
   id: number;
   title: string;
   type: typeof ChatType.DIRECT_MESSAGES;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PublicChatListResponse {
   id: number;
   title: string;
   type: ChatType;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   lastMessageAuthor?: Nullable<string>;
   lastMessagePreview?: Nullable<string>;
 }
