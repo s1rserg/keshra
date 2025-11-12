@@ -1,15 +1,41 @@
 import { AppRoutes } from './config';
-import { MainLayout } from 'layouts';
+import { AuthLayout, MainLayout } from 'layouts';
+import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
+import { LoginPage } from 'pages/LoginPage/LoginPage';
+import { ProtectedRoute, PublicRoute } from './components';
 import { ChatsPage } from 'pages/ChatsPage/ChatsPage';
 
 const APP_ROUTES: RouteObject[] = [
   {
-    element: <MainLayout />,
+    element: <ProtectedRoute />,
     children: [
       {
-        path: AppRoutes.CHATS,
-        element: <ChatsPage />,
+        element: <MainLayout />,
+        children: [
+          {
+            path: AppRoutes.CHATS,
+            element: <ChatsPage />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    element: <PublicRoute />,
+    children: [
+      {
+        element: <AuthLayout />,
+        children: [
+          {
+            path: AppRoutes.REGISTER,
+            element: <RegisterPage />,
+          },
+          {
+            path: AppRoutes.LOGIN,
+            element: <LoginPage />,
+          },
+        ],
       },
     ],
   },

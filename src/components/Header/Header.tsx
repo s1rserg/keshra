@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Separator } from 'components/ui';
-import { Logo, LanguageSwitch, ThemeSwitch } from './components';
+import { Logo, LanguageSwitch, ThemeSwitch, UserPopover } from './components';
 
 export const Header: FC = () => {
   return (
@@ -11,6 +11,7 @@ export const Header: FC = () => {
         <div className="flex items-center gap-3">
           <ThemeSwitch />
           <LanguageSwitch />
+          <UserPopover />
         </div>
       </div>
 

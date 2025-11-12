@@ -2,13 +2,13 @@ import { useEffect, useState, type FC } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'components/ui';
 import { useTranslation } from 'react-i18next';
+import { THEME } from 'styles';
 
 export const ThemeSwitch: FC = () => {
   const { t } = useTranslation('header');
 
-  const [theme, setTheme] = useState<'light' | 'dark'>(
-    () =>
-      (localStorage.getItem('theme') as 'light' | 'dark') ||
+  const [theme, setTheme] = useState(
+    localStorage.getItem(THEME) ||
       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
   );
 
@@ -21,7 +21,7 @@ export const ThemeSwitch: FC = () => {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('theme', theme);
+    localStorage.setItem(THEME, theme);
   }, [theme]);
 
   return (

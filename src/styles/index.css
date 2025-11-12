@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,4 +117,24 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px var(--input-bg, white) inset !important;
+  box-shadow: 0 0 0px 1000px var(--input-bg, white) inset !important;
+  -webkit-text-fill-color: var(--input-text, inherit) !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+:root {
+  --input-bg: white;
+  --input-text: black;
+}
+
+.dark {
+  --input-bg: #0f0f0f;
+  --input-text: #f2f2f2;
 }

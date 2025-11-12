@@ -1,6 +1,8 @@
 {
   "buttons": {
     "changeLanguage": "Змінити мову на {{lang}}",
-    "theme": "Перемкнути тему"
+    "theme": "Перемкнути тему",
+    "profile": "Профіль",
+    "logout": "Вийти"
   }
 }

@@ -1,0 +1,25 @@
+{
+  "title": "Create Account",
+  "link": "Already have an account? Sign in.",
+  "labels": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "username": "Username"
+  },
+  "buttons": {
+    "continue": "Continue"
+  },
+  "successMsg": "Account created successfully!",
+  "validation": {
+    "email": "Email is not valid",
+    "emailMax": "Email must be at most 50 characters",
+    "passwordMin": "Min password length is 6",
+    "passwordMax": "Max password length is 50",
+    "confirmPasswordRequired": "Confirm password is required",
+    "passwordsDontMatch": "Passwords don't match",
+    "usernameMin": "Username must be at least 2 characters",
+    "usernameMax": "Username must be at most 20 characters"
+  },
+  "googleErrorMsg": "Google sign-up failed. Please try again or use another registration method."
+}
