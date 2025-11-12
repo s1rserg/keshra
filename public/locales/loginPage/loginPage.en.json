@@ -1,0 +1,16 @@
+{
+  "title": "Welcome back",
+  "link": "Don't have an account? Sign up.",
+  "labels": {
+    "email": "Email",
+    "password": "Password"
+  },
+  "buttons": {
+    "continue": "Continue"
+  },
+  "validation": {
+    "email": "Email is not valid",
+    "passwordMin": "Min password length is 6"
+  },
+  "googleErrorMsg": "Google sign-in failed. Please try again or use another sign-in method."
+}
