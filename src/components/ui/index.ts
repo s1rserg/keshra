@@ -6,3 +6,5 @@ export * from './separator';
 export * from './tooltip';
 export * from './label';
 export * from './input';
+export * from './resizable';
+export * from './dialog';

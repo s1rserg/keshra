@@ -9,7 +9,7 @@ export const MainLayout: FC = () => {
   return (
     <>
       <Header />
-      <main className="px-4">
+      <main className="px-4 h-[calc(100dvh-73px)]">
         <Outlet />
       </main>
     </>

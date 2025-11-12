@@ -1,0 +1,23 @@
+{
+  "title": "Chats",
+  "buttons": {
+    "newChat": "New chat"
+  },
+  "createPublic": {
+    "title": "Create Public Chat",
+    "labels": {
+      "title": "Chat title"
+    },
+    "placeholders": {
+      "title": "Enter chat title"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "create": "Create"
+    }
+  },
+  "validation": {
+    "titleMin": "Title must be at least 3 characters",
+    "receiverIdRequired": "Please select a user for the private chat"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Чати",
+  "buttons": {
+    "newChat": "Створити чат"
+  },
+  "createPublic": {
+    "title": "Створення публічного чату",
+    "labels": {
+      "title": "Назва чату"
+    },
+    "placeholders": {
+      "title": "Введіть назву чату"
+    },
+    "buttons": {
+      "cancel": "Скасувати",
+      "create": "Створити"
+    }
+  },
+  "validation": {
+    "titleMin": "Назва має містити мінімум 3 символи",
+    "receiverIdRequired": "Виберіть користувача для приватного чату"
+  }
+}
