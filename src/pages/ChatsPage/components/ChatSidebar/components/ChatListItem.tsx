@@ -12,8 +12,8 @@ export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
   return (
     <div
       className={clsx(
-        'flex flex-col px-4 py-3 cursor-pointer hover:bg-gray-100',
-        isSelected && 'bg-gray-200',
+        'flex flex-col px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800',
+        isSelected && 'bg-gray-200 dark:bg-gray-700',
       )}
       onClick={onClick}
     >

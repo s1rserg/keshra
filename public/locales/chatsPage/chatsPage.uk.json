@@ -1,7 +1,10 @@
 {
   "title": "Чати",
   "buttons": {
-    "newChat": "Створити чат"
+    "newChat": "Створити чат",
+    "joinChat": "Приєднатися до чату",
+    "search": "Пошук",
+    "cancelSearch": "Скасувати пошук"
   },
   "createPublic": {
     "title": "Створення публічного чату",
@@ -23,6 +26,10 @@
     "buttons": {
       "send": "Надіслати"
     }
+  },
+  "search": {
+    "publicChatsPlaceholder": "Пошук публічних чатів...",
+    "noResults": "Чатів не знайдено"
   },
   "validation": {
     "titleMin": "Назва має містити мінімум 3 символи",
