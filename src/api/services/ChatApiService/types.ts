@@ -63,3 +63,7 @@ export interface PublicChatResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface GetPublicChatsQueryDto {
+  search?: string;
+}

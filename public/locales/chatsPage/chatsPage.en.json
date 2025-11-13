@@ -1,7 +1,10 @@
 {
   "title": "Chats",
   "buttons": {
-    "newChat": "New chat"
+    "newChat": "New chat",
+    "joinChat": "Join Chat",
+    "search": "Search",
+    "cancelSearch": "Cancel Search"
   },
   "createPublic": {
     "title": "Create Public Chat",
@@ -23,6 +26,10 @@
     "buttons": {
       "send": "Send"
     }
+  },
+  "search": {
+    "publicChatsPlaceholder": "Search public chats...",
+    "noResults": "No chats found"
   },
   "validation": {
     "titleMin": "Title must be at least 3 characters",

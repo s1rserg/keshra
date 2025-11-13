@@ -1,0 +1,1 @@
+export { useSearchPublicChats } from './useSearchPublicChats';

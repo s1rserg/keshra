@@ -1,4 +1,4 @@
-import type { CreatePrivateChatDto, CreatePublicChatDto } from './types';
+import type { CreatePrivateChatDto, CreatePublicChatDto, GetPublicChatsQueryDto } from './types';
 import type { AxiosRequestConfig } from 'axios';
 
 class ChatApiService {
@@ -6,6 +6,14 @@ class ChatApiService {
     return {
       method: 'GET',
       url: '/chats',
+    };
+  }
+
+  public findPublic(params: GetPublicChatsQueryDto): AxiosRequestConfig {
+    return {
+      method: 'GET',
+      url: '/chats/public',
+      params,
     };
   }
 
@@ -29,6 +37,13 @@ class ChatApiService {
     return {
       method: 'GET',
       url: `/chats/${id}`,
+    };
+  }
+
+  public joinPublic(id: number): AxiosRequestConfig {
+    return {
+      method: 'POST',
+      url: `/chats/${id}/join`,
     };
   }
 }
