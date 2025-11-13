@@ -16,6 +16,14 @@
       "create": "Create"
     }
   },
+  "sendMessage": {
+    "placeholders": {
+      "message": "Enter message"
+    },
+    "buttons": {
+      "send": "Send"
+    }
+  },
   "validation": {
     "titleMin": "Title must be at least 3 characters",
     "receiverIdRequired": "Please select a user for the private chat"

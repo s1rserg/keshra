@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Globe } from 'lucide-react';
 import { SupportedLanguages } from 'config';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Button } from 'components/ui';
+import { IconButton } from 'components/IconButton';
 
 export const LanguageSwitch: FC = () => {
   const { i18n, t } = useTranslation('header');
@@ -21,15 +21,10 @@ export const LanguageSwitch: FC = () => {
   };
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" onClick={handleToggleLanguage}>
-            <Globe className="h-5 w-5" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>{t('buttons.changeLanguage', { lang: nextLanguageLabel })}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <IconButton
+      onClick={handleToggleLanguage}
+      label={t('buttons.changeLanguage', { lang: nextLanguageLabel })}
+      icon={<Globe className="h-5 w-5" />}
+    />
   );
 };

@@ -14,7 +14,6 @@ import {
   Separator,
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from 'components/ui';
 
@@ -39,44 +38,42 @@ export const UserPopover: FC = () => {
   };
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback>{user.username?.[0] || 'U'}</AvatarFallback>
-                </Avatar>
-              </Button>
-            </PopoverTrigger>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback>{user.username?.[0] || 'U'}</AvatarFallback>
+              </Avatar>
+            </Button>
+          </PopoverTrigger>
 
-            <PopoverContent align="end" className="w-64 p-4">
-              <div className="space-y-2">
-                <div>
-                  <p className="font-medium">{user.username || user.email}</p>
-                </div>
-
-                <Separator />
-
-                <Button variant="outline" className="w-full" onClick={handleProfile}>
-                  {t('buttons.profile')}
-                </Button>
-
-                <Button
-                  variant="destructive"
-                  className="w-full"
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                >
-                  {t('buttons.logout')}
-                </Button>
+          <PopoverContent align="end" className="w-64 p-4">
+            <div className="space-y-2">
+              <div>
+                <p className="font-medium">{user.username || user.email}</p>
               </div>
-            </PopoverContent>
-          </Popover>
-        </TooltipTrigger>
-        <TooltipContent>{t('buttons.profile')}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+
+              <Separator />
+
+              <Button variant="outline" className="w-full" onClick={handleProfile}>
+                {t('buttons.profile')}
+              </Button>
+
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+              >
+                {t('buttons.logout')}
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </TooltipTrigger>
+      <TooltipContent>{t('buttons.profile')}</TooltipContent>
+    </Tooltip>
   );
 };

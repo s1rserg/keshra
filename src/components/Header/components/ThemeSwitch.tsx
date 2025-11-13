@@ -1,8 +1,8 @@
 import { useEffect, useState, type FC } from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'components/ui';
 import { useTranslation } from 'react-i18next';
 import { THEME } from 'styles';
+import { IconButton } from 'components/IconButton';
 
 export const ThemeSwitch: FC = () => {
   const { t } = useTranslation('header');
@@ -25,15 +25,10 @@ export const ThemeSwitch: FC = () => {
   }, [theme]);
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? 'light' : 'dark')}>
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>{t('buttons.theme')}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <IconButton
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      label={t('buttons.theme')}
+      icon={isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+    />
   );
 };
