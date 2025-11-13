@@ -16,6 +16,14 @@
       "create": "Створити"
     }
   },
+  "sendMessage": {
+    "placeholders": {
+      "message": "Введіть повідомлення"
+    },
+    "buttons": {
+      "send": "Надіслати"
+    }
+  },
   "validation": {
     "titleMin": "Назва має містити мінімум 3 символи",
     "receiverIdRequired": "Виберіть користувача для приватного чату"
