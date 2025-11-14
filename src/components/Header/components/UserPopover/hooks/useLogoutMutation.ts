@@ -12,8 +12,8 @@ export const useLogoutMutation = () => {
     mutationFn: async () => httpClient(authApiService.signOut()),
     onSettled: () => {
       localStorageService.deleteAccessToken();
-      queryClient.clear();
       void navigate(AppRoutes.LOGIN, { replace: true });
+      queryClient.clear();
     },
   });
 
