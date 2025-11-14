@@ -5,13 +5,18 @@ import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { ProtectedRoute, PublicRoute } from './components';
 import { ChatsPage } from 'pages/ChatsPage/ChatsPage';
+import { SocketProvider } from 'socket';
 
 const APP_ROUTES: RouteObject[] = [
   {
     element: <ProtectedRoute />,
     children: [
       {
-        element: <MainLayout />,
+        element: (
+          <SocketProvider>
+            <MainLayout />
+          </SocketProvider>
+        ),
         children: [
           {
             path: AppRoutes.CHATS,

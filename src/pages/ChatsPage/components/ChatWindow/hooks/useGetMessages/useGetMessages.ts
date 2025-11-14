@@ -12,7 +12,7 @@ import { encodeCursor } from './helpers';
 
 export const useGetMessages = (chatId: Nullable<number>) => {
   return useInfiniteQuery({
-    queryKey: [QueryKeys.messages, chatId, CursorDirection.NEWER],
+    queryKey: [...QueryKeys.messages, chatId],
 
     queryFn: async ({ pageParam }) => {
       if (!chatId) return [];

@@ -6,7 +6,6 @@ import {
   type MessageWithAuthorResponseDto,
   QueryKeys,
   type MessageBaseResponseDto,
-  CursorDirection,
 } from 'api';
 import { useGetUser } from 'hooks';
 
@@ -14,7 +13,7 @@ export const useCreateMessage = () => {
   const queryClient = useQueryClient();
   const { data: user } = useGetUser();
 
-  const getQueryKey = (chatId: number) => [QueryKeys.messages, chatId, CursorDirection.NEWER];
+  const getQueryKey = (chatId: number) => [...QueryKeys.messages, chatId];
 
   return useMutation({
     mutationFn: async (data: CreateMessageDto) => {
