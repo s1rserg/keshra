@@ -4,7 +4,8 @@
     "newChat": "Створити чат",
     "joinChat": "Приєднатися до чату",
     "search": "Пошук",
-    "cancelSearch": "Скасувати пошук"
+    "cancelSearch": "Скасувати пошук",
+    "scrollDown": "Прокрутити вниз"
   },
   "createPublic": {
     "title": "Створення публічного чату",

@@ -27,12 +27,13 @@ export const useChatMessages = (chatId: number) => {
 
   const scroll = useAutoScroll(isLoadingMessages);
 
-  const { loadOlder } = useLoadOlderMessages(
+  const { loadOlder } = useLoadOlderMessages({
     fetchPreviousPage,
     hasPreviousPage,
     isFetchingPreviousPage,
-    scroll.scrollContainerRef,
-  );
+    scrollContainerRef: scroll.scrollContainerRef,
+    messagesCount: messages.length,
+  });
 
   const topTriggerRef = useInfiniteScrollTrigger({
     containerRef: scroll.scrollContainerRef,
@@ -55,5 +56,7 @@ export const useChatMessages = (chatId: number) => {
     scrollContainerRef: scroll.scrollContainerRef,
     messagesEndRef: scroll.messagesEndRef,
     topTriggerRef,
+    scrollToBottom: scroll.scrollToBottom,
+    showScrollDownButton: scroll.showScrollDownButton,
   };
 };

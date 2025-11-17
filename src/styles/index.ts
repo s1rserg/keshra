@@ -1,1 +1,2 @@
-export * from './config';
+export * from './hooks';
+export { ThemeProvider } from './ThemeProvider';

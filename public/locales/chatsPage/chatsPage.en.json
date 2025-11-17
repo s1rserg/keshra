@@ -4,7 +4,8 @@
     "newChat": "New chat",
     "joinChat": "Join Chat",
     "search": "Search",
-    "cancelSearch": "Cancel Search"
+    "cancelSearch": "Cancel Search",
+    "scrollDown": "Scroll Down"
   },
   "createPublic": {
     "title": "Create Public Chat",
