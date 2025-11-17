@@ -1,5 +1,11 @@
 {
   "sessionExpired": "Your session has expired. Please log in again.",
   "genericApiError": "An error occurred while processing your request.",
-  "unknownError": "An unexpected error occurred."
+  "unknownError": "An unexpected error occurred.",
+  "imageCropper": {
+    "select": "Select Image",
+    "zoom": "Zoom",
+    "crop": "Crop & Upload",
+    "errorMsg": "Failed to load image"
+  }
 }

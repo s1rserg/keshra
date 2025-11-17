@@ -6,6 +6,7 @@ import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { ProtectedRoute, PublicRoute } from './components';
 import { ChatsPage } from 'pages/ChatsPage/ChatsPage';
 import { SocketProvider } from 'socket';
+import { ProfilePage } from 'pages/ProfilePage/ProfilePage';
 
 const APP_ROUTES: RouteObject[] = [
   {
@@ -21,6 +22,10 @@ const APP_ROUTES: RouteObject[] = [
           {
             path: AppRoutes.CHATS,
             element: <ChatsPage />,
+          },
+          {
+            path: AppRoutes.PROFILE,
+            element: <ProfilePage />,
           },
         ],
       },

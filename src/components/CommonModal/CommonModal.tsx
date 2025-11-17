@@ -32,14 +32,13 @@ export const CommonModal: FC<Props> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className={`${sizeClass}`}>
+      <DialogContent className={`${sizeClass} max-h-[90vh] overflow-y-auto`}>
         {title || description ? (
           <DialogHeader>
             {title && <DialogTitle>{title}</DialogTitle>}
             <DialogDescription className="sr-only">{title}</DialogDescription>
           </DialogHeader>
         ) : null}
-
         <div>{children}</div>
 
         {footer && <DialogFooter>{footer}</DialogFooter>}

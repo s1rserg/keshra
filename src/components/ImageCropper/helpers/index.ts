@@ -1,0 +1,1 @@
+export { getCroppedFile } from './getCroppedFile';
