@@ -4,4 +4,5 @@ export const QueryKeys = {
   chatsSearch: ['chatsSearch'],
   chat: ['chat'],
   messages: ['messages'],
+  avatars: ['avatars'],
 };

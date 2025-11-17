@@ -7,6 +7,7 @@ import { useLogoutMutation } from './hooks';
 import {
   Avatar,
   AvatarFallback,
+  AvatarImage,
   Button,
   Popover,
   PopoverContent,
@@ -44,7 +45,11 @@ export const UserPopover: FC = () => {
           <PopoverTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
               <Avatar className="h-8 w-8">
-                <AvatarFallback>{user.username?.[0] || 'U'}</AvatarFallback>
+                {user.avatar ? (
+                  <AvatarImage src={user.avatar.secureUrl} />
+                ) : (
+                  <AvatarFallback>{user.username[0]}</AvatarFallback>
+                )}
               </Avatar>
             </Button>
           </PopoverTrigger>
