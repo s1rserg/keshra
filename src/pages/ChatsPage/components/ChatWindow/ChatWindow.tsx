@@ -2,7 +2,8 @@ import { type FC } from 'react';
 import { type ChatDetailsResponse, type User } from 'api';
 import { Loader } from 'components/Loader';
 import { useCreateMessage, useChatMessages, useJoinChat } from './hooks';
-import { ChatInput, JoinChatBar } from './components';
+import { ChatInput, JoinChatBar, MessageList, ScrollDownButton } from './components';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
   chatDetails: ChatDetailsResponse;
@@ -23,14 +24,17 @@ export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails
     scrollContainerRef,
     messagesEndRef,
     topTriggerRef,
+    showScrollDownButton,
+    scrollToBottom,
   } = useChatMessages(chatId);
 
-  const { mutate: createMessage } = useCreateMessage();
+  const { mutateAsync: createMessage } = useCreateMessage();
 
   const { mutate: joinChat, isPending: isJoining } = useJoinChat();
 
-  const handleSendMessage = (content: string) => {
-    createMessage({ chatId, content });
+  const handleSendMessage = async (content: string) => {
+    await createMessage({ chatId, content });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   if (isLoadingDetails) return <Loader />;
@@ -40,28 +44,27 @@ export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails
       <span className="px-4 py-3.5 border-b border-gray-200 font-bold">{title}</span>
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto p-4 space-y-3"
+        className="flex-1 overflow-y-auto"
         style={{ scrollBehavior: 'auto' }}
       >
         {hasPreviousPage && (
-          <div ref={topTriggerRef} className="flex justify-center py-2">
-            {isFetchingPreviousPage && <Loader />}
+          <div ref={topTriggerRef} className="flex justify-center py-2 shrink-0 h-8 w-full">
+            {isFetchingPreviousPage && (
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            )}
           </div>
         )}
 
         {isLoadingMessages && !messages.length ? (
           <Loader />
         ) : (
-          messages.map((msg) => (
-            <div key={msg.id} className="text-sm">
-              <span className="font-bold">{msg.author?.username ?? 'User'}: </span>
-              <span>{msg.content}</span>
-            </div>
-          ))
+          <MessageList messages={messages} currentUserId={user.id} />
         )}
-
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndRef} className="h-1" />
       </div>
+
+      <ScrollDownButton show={showScrollDownButton} onClick={() => scrollToBottom('smooth')} />
+
       {isMember ? (
         <ChatInput onSubmit={handleSendMessage} />
       ) : (

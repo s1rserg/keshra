@@ -7,18 +7,18 @@ import { useTranslation } from 'react-i18next';
 import { type CreateMessageDto } from 'api';
 
 interface Props {
-  onSubmit: (content: string) => void;
+  onSubmit: (content: string) => Promise<void>;
 }
 
 export const ChatInput: FC<Props> = ({ onSubmit }) => {
   const { t } = useTranslation('chatsPage');
   const { register, handleSubmit, reset } = useForm<Pick<CreateMessageDto, 'content'>>();
 
-  const handleSend = handleSubmit((data) => {
+  const handleSend = handleSubmit(async (data) => {
     const content = data.content.trim();
     if (!content) return;
 
-    onSubmit(content);
+    await onSubmit(content);
     reset();
   });
 

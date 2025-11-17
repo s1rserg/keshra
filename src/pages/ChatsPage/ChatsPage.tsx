@@ -6,6 +6,7 @@ import type { CreatePublicChatDto } from 'api';
 import type { Nullable } from 'types/utils';
 import { useGetUser } from 'hooks';
 import { ClientToServerEvent, useSocket } from 'socket';
+import { Loader } from 'components/Loader';
 
 export const ChatsPage: FC = () => {
   const { data: user } = useGetUser();
@@ -64,6 +65,7 @@ export const ChatsPage: FC = () => {
       <ResizableHandle withHandle />
 
       <ResizablePanel defaultSize={75} className="h-full">
+        {isLoadingChatDetails && <Loader />}
         {chatDetails && (
           <ChatWindow
             key={chatDetails.id}

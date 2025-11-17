@@ -10,15 +10,18 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from 'api';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { TooltipProvider } from 'components/ui';
+import { ThemeProvider } from 'styles';
 
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider delayDuration={100}>
-      <Suspense fallback={<Loader />}>
-        <RouterProvider router={appRouter} />
-      </Suspense>
-      <ThemedToastContainer />
-    </TooltipProvider>
+    <ThemeProvider>
+      <TooltipProvider delayDuration={100}>
+        <Suspense fallback={<Loader />}>
+          <RouterProvider router={appRouter} />
+        </Suspense>
+        <ThemedToastContainer />
+      </TooltipProvider>
+    </ThemeProvider>
     <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
   </QueryClientProvider>,
 );

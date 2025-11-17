@@ -1,20 +1,9 @@
-import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { THEME } from 'styles';
+import { useTheme } from 'styles';
 
 export const ThemedToastContainer = () => {
-  const [theme, setTheme] = useState(localStorage.getItem(THEME));
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const newTheme = localStorage.getItem(THEME);
-      setTheme(newTheme);
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  const { theme } = useTheme();
 
   return (
     <ToastContainer
