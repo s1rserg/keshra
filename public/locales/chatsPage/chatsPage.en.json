@@ -35,5 +35,9 @@
   "validation": {
     "titleMin": "Title must be at least 3 characters",
     "receiverIdRequired": "Please select a user for the private chat"
+  },
+  "chatAvatarModal": {
+    "avatarsTitle": "Avatars",
+    "uploadTitle": "Upload Avatar"
   }
 }

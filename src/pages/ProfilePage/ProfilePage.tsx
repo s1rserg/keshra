@@ -2,7 +2,7 @@ import { Loader } from 'components/Loader';
 import { type FC } from 'react';
 import { useGetUser, useModal } from 'hooks';
 import { type UpdateUserDto, type UserAvatarMedia } from 'api';
-import { AvatarSlider, UploadAvatarModal, UserData, UpdateProfileModal } from './components';
+import { UploadAvatarModal, UserData, UpdateProfileModal } from './components';
 import {
   useDeleteAvatarMutation,
   useGetAllAvatars,
@@ -12,6 +12,7 @@ import {
 } from './hooks';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { AvatarSlider } from 'components/AvatarSlider';
 
 export const ProfilePage: FC = () => {
   const { t } = useTranslation('profilePage');

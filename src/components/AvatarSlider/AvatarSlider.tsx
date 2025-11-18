@@ -1,15 +1,15 @@
 import { useState, useEffect, type FC } from 'react';
-import { ImageSlider } from 'components/ImageSlider';
+import { ImageSlider } from '../ImageSlider';
 import type { Nullable } from 'types/utils';
-import type { UserAvatarMedia } from 'api';
+import type { AvatarMedia } from './types';
 import { AvatarOverlay, AvatarPlaceholder } from './components';
 
 interface Props {
-  avatars: UserAvatarMedia[];
+  avatars: AvatarMedia[];
   mainAvatarId: Nullable<number>;
   onUpload: () => void;
-  onSetMain: (mediaId: UserAvatarMedia['id']) => void;
-  onDelete: (mediaId: UserAvatarMedia['id']) => void;
+  onSetMain: (mediaId: number) => void;
+  onDelete: (mediaId: number) => void;
   isLoading: boolean;
 }
 

@@ -35,5 +35,9 @@
   "validation": {
     "titleMin": "Назва має містити мінімум 3 символи",
     "receiverIdRequired": "Виберіть користувача для приватного чату"
+  },
+  "chatAvatarModal": {
+    "avatarsTitle": "Аватари чату",
+    "uploadTitle": "Завантажити аватар"
   }
 }

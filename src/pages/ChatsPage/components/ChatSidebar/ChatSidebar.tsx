@@ -39,7 +39,7 @@ export const ChatSidebar: FC<Props> = ({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200">
+      <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-200">
         <span className="text-lg font-bold">{t('title')}</span>
         <div>
           <IconButton

@@ -2,8 +2,16 @@ import { type FC } from 'react';
 import { type ChatDetailsResponse, type User } from 'api';
 import { Loader } from 'components/Loader';
 import { useCreateMessage, useChatMessages, useJoinChat } from './hooks';
-import { ChatInput, JoinChatBar, MessageList, ScrollDownButton } from './components';
+import {
+  ChatInput,
+  JoinChatBar,
+  MessageList,
+  ScrollDownButton,
+  ChatAvatarModal,
+} from './components';
 import { Loader2 } from 'lucide-react';
+import { useModal } from 'hooks';
+import { Avatar, AvatarFallback, AvatarImage, Button } from 'components/ui';
 
 interface Props {
   chatDetails: ChatDetailsResponse;
@@ -12,7 +20,8 @@ interface Props {
 }
 
 export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails, user }) => {
-  const { id: chatId, title, participants } = chatDetails;
+  const { id: chatId, title, participants, avatar } = chatDetails;
+  const { isOpen: isAvatarModalOpen, open: openAvatarModal, close: closeAvatarModal } = useModal();
 
   const isMember = participants.some((p) => p.user.id === user.id);
 
@@ -29,7 +38,6 @@ export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails
   } = useChatMessages(chatId);
 
   const { mutateAsync: createMessage } = useCreateMessage();
-
   const { mutate: joinChat, isPending: isJoining } = useJoinChat();
 
   const handleSendMessage = async (content: string) => {
@@ -41,7 +49,20 @@ export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails
 
   return (
     <div className="flex flex-col h-full">
-      <span className="px-4 py-3.5 border-b border-gray-200 font-bold">{title}</span>
+      <div className="px-4 py-3.5 border-b border-gray-200 flex items-center gap-3">
+        <Button variant="ghost" size="icon" className="relative" onClick={openAvatarModal}>
+          <Avatar className="h-8 w-8">
+            {avatar ? (
+              <AvatarImage src={avatar.secureUrl} />
+            ) : (
+              <AvatarFallback>{title[0]}</AvatarFallback>
+            )}
+          </Avatar>
+        </Button>
+
+        <span className="font-bold truncate">{title}</span>
+      </div>
+
       <div
         ref={scrollContainerRef}
         className="flex-1 overflow-y-auto"
@@ -70,6 +91,14 @@ export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails
       ) : (
         <JoinChatBar onJoin={() => joinChat(chatId)} isLoading={isJoining} />
       )}
+
+      <ChatAvatarModal
+        isOpen={isAvatarModalOpen}
+        onClose={closeAvatarModal}
+        chatId={chatId}
+        currentMainAvatarId={avatar?.id ?? null}
+        isMember={isMember}
+      />
     </div>
   );
 };
