@@ -29,7 +29,7 @@ export const ChatAvatarModal: FC<Props> = ({
 }) => {
   const { t } = useTranslation('chatsPage');
 
-  const { data: avatars = [], isLoading: isLoadingAvatars } = useGetAllAvatars(chatId);
+  const { data: avatars = [], isLoading: isLoadingAvatars } = useGetAllAvatars(chatId, isOpen);
   const { mutateAsync: uploadAvatar } = useUploadAvatarMutation();
   const { mutate: setMainAvatar } = useSetMainAvatarMutation();
   const { mutate: deleteAvatar } = useDeleteAvatarMutation();

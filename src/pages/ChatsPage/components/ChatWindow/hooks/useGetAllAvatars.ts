@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { chatApiService, httpClient, QueryKeys, type ChatAvatarMedia } from 'api';
 
-export const useGetAllAvatars = (id: number) => {
+export const useGetAllAvatars = (id: number, enabled = true) => {
   return useQuery({
     queryKey: [QueryKeys.chatAvatars, id],
     queryFn: async ({ signal }) => {
@@ -10,5 +10,7 @@ export const useGetAllAvatars = (id: number) => {
       );
       return response.data;
     },
+
+    enabled: enabled,
   });
 };
