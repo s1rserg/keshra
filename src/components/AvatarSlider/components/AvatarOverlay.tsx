@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { SliderItem } from 'components/ImageSlider';
-import { IconButton } from 'components/IconButton';
+import type { SliderItem } from '../../ImageSlider';
+import { IconButton } from '../../IconButton';
 import { CircleCheckBig, ImagePlus, Trash } from 'lucide-react';
 
 interface Props {
@@ -23,7 +23,7 @@ export const AvatarOverlay: FC<Props> = ({
   sliderItems,
   isLoading,
 }) => {
-  const { t } = useTranslation('profilePage');
+  const { t } = useTranslation();
 
   const currentItem = sliderItems[currentIndex];
 
@@ -33,21 +33,21 @@ export const AvatarOverlay: FC<Props> = ({
         <IconButton
           onClick={onUpload}
           disabled={isLoading}
-          label={t('slider.add') || ''}
+          label={t('avatarSlider.add') || ''}
           icon={<ImagePlus className="h-4 w-4 text-white" />}
         />
 
         <IconButton
           onClick={onDelete}
           disabled={isLoading}
-          label={t('slider.delete') || ''}
+          label={t('avatarSlider.delete') || ''}
           icon={<Trash className="h-4 w-4 text-white" />}
         />
 
         <IconButton
           onClick={onSetMain}
           disabled={isMainAvatar || isLoading}
-          label={t('slider.setMain') || ''}
+          label={t('avatarSlider.setMain') || ''}
           variant={isMainAvatar ? 'secondary' : 'ghost'}
           icon={
             <CircleCheckBig

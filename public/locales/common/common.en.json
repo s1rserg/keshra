@@ -7,5 +7,10 @@
     "zoom": "Zoom",
     "crop": "Crop & Upload",
     "errorMsg": "Failed to load image"
+  },
+  "avatarSlider": {
+    "add": "Add Avatar",
+    "delete": "Delete Avatar",
+    "setMain": "Set as Main Avatar"
   }
 }

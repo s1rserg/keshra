@@ -15,11 +15,6 @@
   "modal": {
     "title": "Upload Avatar"
   },
-  "slider": {
-    "add": "Add Avatar",
-    "delete": "Delete Avatar",
-    "setMain": "Set as Main Avatar"
-  },
   "updateModal": {
     "title": "Edit Profile",
     "successMsg": "Profile updated successfully!",

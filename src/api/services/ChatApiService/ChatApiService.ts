@@ -46,6 +46,42 @@ class ChatApiService {
       url: `/chats/${id}/join`,
     };
   }
+
+  public uploadAvatar(id: number, file: File): AxiosRequestConfig {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return {
+      method: 'POST',
+      url: `/chats/${id}/avatars`,
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+  }
+
+  public getAllAvatars(id: number, signal?: AbortSignal): AxiosRequestConfig {
+    return {
+      method: 'GET',
+      url: `/chats/${id}/avatars`,
+      signal,
+    };
+  }
+
+  public setMainAvatar(id: number, mediaId: number): AxiosRequestConfig {
+    return {
+      method: 'PATCH',
+      url: `/chats/${id}/avatars/${mediaId}/set-main`,
+    };
+  }
+
+  public deleteAvatar(id: number, mediaId: number): AxiosRequestConfig {
+    return {
+      method: 'DELETE',
+      url: `/chats/${id}/avatars/${mediaId}`,
+    };
+  }
 }
 
 export const chatApiService = new ChatApiService();

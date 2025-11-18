@@ -24,6 +24,7 @@ export interface ChatDetailsResponse {
   title: string;
   type: ChatType;
   participants: ChatParticipantWithUser[];
+  avatar: Nullable<ChatAvatarMedia>;
   updatedAt: string;
   createdAt: string;
 }
@@ -32,6 +33,7 @@ export interface PrivateChatListResponse {
   id: number;
   title: string;
   type: ChatType;
+  avatar: Nullable<ChatAvatarMedia>;
   createdAt: string;
   updatedAt: string;
   lastMessageAuthor?: Nullable<string>;
@@ -52,6 +54,7 @@ export interface PublicChatListResponse {
   type: ChatType;
   createdAt: string;
   updatedAt: string;
+  avatar: Nullable<ChatAvatarMedia>;
   lastMessageAuthor?: Nullable<string>;
   lastMessagePreview?: Nullable<string>;
 }
@@ -66,4 +69,12 @@ export interface PublicChatResponse {
 
 export interface GetPublicChatsQueryDto {
   search?: string;
+}
+
+export interface ChatAvatarMedia {
+  id: number;
+  createdAt: string;
+  width: number;
+  height: number;
+  secureUrl: string;
 }
