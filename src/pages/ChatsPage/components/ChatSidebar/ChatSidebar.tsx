@@ -5,7 +5,12 @@ import {
   CreateChatButton,
   CreatePublicChatModal,
 } from './components';
-import type { CreatePublicChatDto, PrivateChatListResponse, PublicChatListResponse } from 'api';
+import type {
+  CreatePublicChatDto,
+  PrivateChatListResponse,
+  PublicChatListResponse,
+  User,
+} from 'api';
 import type { Nullable } from 'types/utils';
 import { Loader } from 'components/Loader';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +23,7 @@ interface Props {
   isLoading: boolean;
   selectedChatId: Nullable<number>;
   onSelectChat: (id: number) => void;
+  onSelectUser: (user: User) => void;
   isCreatingChat: boolean;
   onCreatePublicChat: (data: CreatePublicChatDto) => Promise<boolean>;
 }
@@ -29,6 +35,7 @@ export const ChatSidebar: FC<Props> = ({
   onSelectChat,
   isCreatingChat,
   onCreatePublicChat,
+  onSelectUser,
 }) => {
   const { t } = useTranslation('chatsPage');
   const { isOpen, open, close } = useModal();
@@ -52,7 +59,7 @@ export const ChatSidebar: FC<Props> = ({
       </div>
 
       {isSearching ? (
-        <ChatSidebarSearch onSelectChat={onSelectChat} />
+        <ChatSidebarSearch onSelectChat={onSelectChat} onSelectUser={onSelectUser} />
       ) : (
         <div className="flex-1 overflow-y-auto">
           {chats?.map((chat) => (

@@ -1,29 +1,43 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { type ChatDetailsResponse, type User } from 'api';
 import { Loader } from 'components/Loader';
-import { useCreateMessage, useChatMessages, useJoinChat } from './hooks';
+import { useChatMessages, useChatWindowLogic } from './hooks';
 import {
   ChatInput,
   JoinChatBar,
-  MessageList,
-  ScrollDownButton,
   ChatAvatarModal,
+  ChatHeader,
+  ChatMessagesView,
+  ChatParticipantsView,
 } from './components';
-import { Loader2 } from 'lucide-react';
 import { useModal } from 'hooks';
-import { Avatar, AvatarFallback, AvatarImage, Button } from 'components/ui';
+import type { Nullable, ValueOf } from 'types/utils';
+import { useTranslation } from 'react-i18next';
+import { ViewMode } from './types';
 
 interface Props {
-  chatDetails: ChatDetailsResponse;
+  chatDetails?: Nullable<ChatDetailsResponse>;
+  recipientUser: Nullable<User>;
   isLoading: boolean;
-  user: User;
+  currentUser: User;
+  onChatCreated?: (chatId: number) => void;
+  onSelectUser: (user: User) => void;
 }
 
-export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails, user }) => {
-  const { id: chatId, title, participants, avatar } = chatDetails;
+export const ChatWindow: FC<Props> = ({
+  chatDetails,
+  recipientUser,
+  isLoading: isLoadingDetails,
+  currentUser,
+  onChatCreated,
+  onSelectUser,
+}) => {
+  const { t } = useTranslation('chatsPage');
   const { isOpen: isAvatarModalOpen, open: openAvatarModal, close: closeAvatarModal } = useModal();
 
-  const isMember = participants.some((p) => p.user.id === user.id);
+  const [viewMode, setViewMode] = useState<ValueOf<typeof ViewMode>>(ViewMode.MESSAGES);
+
+  const activeChatId = chatDetails?.id || null;
 
   const {
     messages,
@@ -35,70 +49,87 @@ export const ChatWindow: FC<Props> = ({ chatDetails, isLoading: isLoadingDetails
     topTriggerRef,
     showScrollDownButton,
     scrollToBottom,
-  } = useChatMessages(chatId);
+  } = useChatMessages(!chatDetails && !!recipientUser ? null : activeChatId);
 
-  const { mutateAsync: createMessage } = useCreateMessage();
-  const { mutate: joinChat, isPending: isJoining } = useJoinChat();
+  const { isDraft, chatId, displayData, handleSendMessage, joinChat, isJoining } =
+    useChatWindowLogic({
+      chatDetails,
+      recipientUser,
+      currentUser,
+      onChatCreated,
+      scrollToBottom: () => {
+        setViewMode(ViewMode.MESSAGES);
+        scrollToBottom('smooth');
+      },
+    });
 
-  const handleSendMessage = async (content: string) => {
-    await createMessage({ chatId, content });
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const handleToggleView = () => {
+    setViewMode((prev) => (prev === ViewMode.MESSAGES ? ViewMode.PARTICIPANTS : ViewMode.MESSAGES));
   };
 
   if (isLoadingDetails) return <Loader />;
 
+  if (!displayData) {
+    return (
+      <div className="flex h-full items-center justify-center text-gray-500">
+        {t('noChatSelected')}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full">
-      <div className="px-4 py-3.5 border-b border-gray-200 flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="relative" onClick={openAvatarModal}>
-          <Avatar className="h-8 w-8">
-            {avatar ? (
-              <AvatarImage src={avatar.secureUrl} />
-            ) : (
-              <AvatarFallback>{title[0]}</AvatarFallback>
-            )}
-          </Avatar>
-        </Button>
+      <ChatHeader
+        title={displayData.title}
+        avatar={displayData.avatar}
+        isDraft={isDraft}
+        chatType={chatDetails?.type}
+        currentView={viewMode}
+        onToggleView={handleToggleView}
+        onAvatarClick={openAvatarModal}
+      />
 
-        <span className="font-bold truncate">{title}</span>
-      </div>
-
-      <div
-        ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto"
-        style={{ scrollBehavior: 'auto' }}
-      >
-        {hasPreviousPage && (
-          <div ref={topTriggerRef} className="flex justify-center py-2 shrink-0 h-8 w-full">
-            {isFetchingPreviousPage && (
-              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-            )}
-          </div>
-        )}
-
-        {isLoadingMessages && !messages.length ? (
-          <Loader />
-        ) : (
-          <MessageList messages={messages} currentUserId={user.id} />
-        )}
-        <div ref={messagesEndRef} className="h-1" />
-      </div>
-
-      <ScrollDownButton show={showScrollDownButton} onClick={() => scrollToBottom('smooth')} />
-
-      {isMember ? (
-        <ChatInput onSubmit={handleSendMessage} />
+      {viewMode === ViewMode.PARTICIPANTS && chatDetails ? (
+        <ChatParticipantsView
+          participants={chatDetails.participants}
+          currentUserId={currentUser.id}
+          onSelectUser={onSelectUser}
+        />
       ) : (
-        <JoinChatBar onJoin={() => joinChat(chatId)} isLoading={isJoining} />
+        <ChatMessagesView
+          messages={messages}
+          currentUserId={currentUser.id}
+          isLoading={isLoadingMessages}
+          isDraft={isDraft}
+          hasPreviousPage={hasPreviousPage}
+          isFetchingPreviousPage={isFetchingPreviousPage}
+          showScrollDownButton={showScrollDownButton}
+          onScrollToBottom={() => scrollToBottom('smooth')}
+          scrollRef={scrollContainerRef}
+          topTriggerRef={topTriggerRef}
+          bottomRef={messagesEndRef}
+        />
       )}
 
-      <ChatAvatarModal
-        isOpen={isAvatarModalOpen}
-        onClose={closeAvatarModal}
-        chatId={chatId}
-        currentMainAvatarId={avatar?.id ?? null}
-        isMember={isMember}
-      />
+      {viewMode === ViewMode.MESSAGES && (
+        <>
+          {displayData.isMember ? (
+            <ChatInput onSubmit={handleSendMessage} />
+          ) : (
+            <JoinChatBar onJoin={() => joinChat(chatId)} isLoading={isJoining} />
+          )}
+        </>
+      )}
+
+      {!isDraft && (
+        <ChatAvatarModal
+          isOpen={isAvatarModalOpen}
+          onClose={closeAvatarModal}
+          chatId={chatId}
+          currentMainAvatarId={displayData.avatar?.id ?? null}
+          isMember={displayData.isMember}
+        />
+      )}
     </div>
   );
 };

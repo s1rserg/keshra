@@ -1,11 +1,19 @@
 {
   "title": "Chats",
+  "noChatSelected": "Select a chat or search for a user to start messaging",
+  "noMessages": "Send a message to start the conversation",
   "buttons": {
     "newChat": "New chat",
     "joinChat": "Join Chat",
     "search": "Search",
     "cancelSearch": "Cancel Search",
-    "scrollDown": "Scroll Down"
+    "scrollDown": "Scroll Down",
+    "showParticipants": "Show participants",
+    "showMessages": "Show messages"
+  },
+  "participants": {
+    "count_one": "{{count}} member",
+    "count_other": "{{count}} members"
   },
   "createPublic": {
     "title": "Create Public Chat",
@@ -30,7 +38,12 @@
   },
   "search": {
     "publicChatsPlaceholder": "Search public chats...",
-    "noResults": "No chats found"
+    "usersPlaceholder": "Search users...",
+    "noResults": "No data found"
+  },
+  "tabs": {
+    "publicChats": "Public Chats",
+    "users": "Users"
   },
   "validation": {
     "titleMin": "Title must be at least 3 characters",

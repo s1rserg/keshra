@@ -9,8 +9,9 @@ import {
   useLoadOlderMessages,
   useSortedMessages,
 } from './hooks';
+import type { Nullable } from 'types/utils';
 
-export const useChatMessages = (chatId: number) => {
+export const useChatMessages = (chatId: Nullable<number>) => {
   const socket = useSocket();
   const queryClient = useQueryClient();
   const { data: user } = useGetUser();
@@ -41,12 +42,7 @@ export const useChatMessages = (chatId: number) => {
     onReach: loadOlder,
   });
 
-  useChatSocketSubscription({
-    socket,
-    chatId,
-    userId: user?.id,
-    queryClient,
-  });
+  useChatSocketSubscription(socket, chatId, user?.id, queryClient);
 
   return {
     messages,

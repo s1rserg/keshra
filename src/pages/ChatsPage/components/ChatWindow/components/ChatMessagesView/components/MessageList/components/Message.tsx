@@ -26,7 +26,7 @@ export const Message: FC<Props> = ({ message, isOwnMessage }) => {
 
       <div
         className={cn(
-          'max-w-[70%] px-4 py-2 rounded-2xl break-words shadow-sm',
+          'min-w-[140px] max-w-[70%] px-4 py-2 rounded-2xl break-words shadow-sm',
           isOwnMessage
             ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white dark:from-blue-600 dark:to-blue-700 rounded-br-none'
             : 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100 rounded-bl-none',

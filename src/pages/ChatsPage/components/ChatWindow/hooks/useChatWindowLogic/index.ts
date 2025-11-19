@@ -1,0 +1,1 @@
+export { useChatWindowLogic } from './useChatWindowLogic';

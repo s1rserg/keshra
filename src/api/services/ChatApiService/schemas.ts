@@ -5,5 +5,5 @@ export const CreatePublicChatSchema = z.strictObject({
 });
 
 export const CreatePrivateChatSchema = z.strictObject({
-  receiverId: z.string().min(1, 'validation.receiverIdRequired'),
+  receiverId: z.number().min(1, 'validation.receiverIdRequired'),
 });

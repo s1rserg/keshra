@@ -20,11 +20,11 @@ export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
       onClick={onClick}
     >
       <div className="flex items-start">
-        <Avatar className="h-full w-10">
+        <Avatar className="h-10 w-10">
           {chat.avatar ? (
             <AvatarImage src={chat.avatar.secureUrl} />
           ) : (
-            <AvatarFallback>{chat.title[0]}</AvatarFallback>
+            <AvatarFallback>{chat.title?.[0]}</AvatarFallback>
           )}
         </Avatar>
       </div>
