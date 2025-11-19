@@ -1,7 +1,15 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { UpdateUserDto } from './types';
+import type { GetAllUsersQueryDto, UpdateUserDto } from './types';
 
 class UserApiService {
+  public fetchAll(params: GetAllUsersQueryDto): AxiosRequestConfig {
+    return {
+      method: 'GET',
+      url: '/users',
+      params,
+    };
+  }
+
   public fetchUser(): AxiosRequestConfig {
     return {
       method: 'GET',

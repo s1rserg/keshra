@@ -21,3 +21,7 @@ export interface User {
   createdAt: Date;
   avatar: Nullable<UserAvatarMedia>;
 }
+
+export interface GetAllUsersQueryDto {
+  search?: string;
+}

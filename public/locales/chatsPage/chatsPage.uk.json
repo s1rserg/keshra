@@ -1,11 +1,20 @@
 {
   "title": "Чати",
+  "noChatSelected": "Оберіть чат або знайдіть користувача для початку діалогу",
+  "noMessages": "Надішліть повідомлення для початку діалогу",
   "buttons": {
     "newChat": "Створити чат",
     "joinChat": "Приєднатися до чату",
     "search": "Пошук",
     "cancelSearch": "Скасувати пошук",
-    "scrollDown": "Прокрутити вниз"
+    "scrollDown": "Прокрутити вниз",
+    "showParticipants": "Показати учасників",
+    "showMessages": "Показати повідомлення"
+  },
+  "participants": {
+    "count_one": "{{count}} учасник",
+    "count_few": "{{count}} учасники",
+    "count_many": "{{count}} учасників"
   },
   "createPublic": {
     "title": "Створення публічного чату",
@@ -30,7 +39,12 @@
   },
   "search": {
     "publicChatsPlaceholder": "Пошук публічних чатів...",
-    "noResults": "Чатів не знайдено"
+    "usersPlaceholder": "Пошук користувачів...",
+    "noResults": "Нічого не знайдено"
+  },
+  "tabs": {
+    "publicChats": "Публічні чати",
+    "users": "Користувачі"
   },
   "validation": {
     "titleMin": "Назва має містити мінімум 3 символи",

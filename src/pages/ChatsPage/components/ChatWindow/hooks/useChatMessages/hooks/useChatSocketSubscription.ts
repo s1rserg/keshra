@@ -2,15 +2,14 @@ import { useEffect } from 'react';
 import { ServerToClientEvent, useSocket } from 'socket';
 import { QueryKeys, type MessageWithAuthorResponseDto } from 'api';
 import type { QueryClient, InfiniteData } from '@tanstack/react-query';
+import type { Nullable } from 'types/utils';
 
-interface Options {
-  socket: ReturnType<typeof useSocket>;
-  chatId: number;
-  userId: number | undefined;
-  queryClient: QueryClient;
-}
-
-export const useChatSocketSubscription = ({ socket, chatId, userId, queryClient }: Options) => {
+export const useChatSocketSubscription = (
+  socket: ReturnType<typeof useSocket>,
+  chatId: Nullable<number>,
+  userId: number | undefined,
+  queryClient: QueryClient,
+) => {
   useEffect(() => {
     if (!socket) return;
 

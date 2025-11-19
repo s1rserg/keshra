@@ -1,0 +1,1 @@
+export { ChatSidebarSearch } from './ChatSidebarSearch';
