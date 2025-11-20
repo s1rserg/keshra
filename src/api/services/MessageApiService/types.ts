@@ -24,6 +24,7 @@ export interface GetMessagesQueryDto extends CursorQueryDto {
 export interface MessageBaseResponseDto {
   id: number;
   content: string;
+  segNumber: number;
   authorId: number;
   chatId: number;
   createdAt: string;

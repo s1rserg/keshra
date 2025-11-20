@@ -3,6 +3,7 @@ export const ClientToServerEvent = {
   CHAT_LEAVE: 'chat:leave',
   CHAT_DELTA_JOIN: 'chat:delta:join',
   CHAT_DELTA_LEAVE: 'chat:delta:leave',
+  CHAT_MARK_READ: 'chat:mark:read',
 } as const;
 
 export const ServerToClientEvent = {
