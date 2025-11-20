@@ -35,6 +35,7 @@ export const useCreateMessage = () => {
         id: Math.random(),
         content: content,
         chatId: chatId,
+        segNumber: 0,
         createdAt: new Date().toISOString(),
         author: user,
         authorId: user.id,

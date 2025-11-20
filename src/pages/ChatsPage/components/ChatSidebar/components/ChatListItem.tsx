@@ -13,13 +13,13 @@ export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
   return (
     <div
       className={cn(
-        'flex px-4 py-3 cursor-pointer rounded-lg transition-colors',
+        'flex items-center px-4 py-3 cursor-pointer rounded-lg transition-colors',
         'hover:bg-gray-100 dark:hover:bg-gray-800',
         isSelected && 'bg-gray-200 dark:bg-gray-700',
       )}
       onClick={onClick}
     >
-      <div className="flex items-start">
+      <div className="flex shrink-0 items-start">
         <Avatar className="h-10 w-10">
           {chat.avatar ? (
             <AvatarImage src={chat.avatar.secureUrl} />
@@ -29,13 +29,25 @@ export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
         </Avatar>
       </div>
 
-      <div className="flex flex-col justify-center ml-3 w-full min-w-0">
-        <div className="font-medium truncate">{chat.title}</div>
+      <div className="flex flex-col justify-center ml-3 flex-1 min-w-0">
+        <div className="flex justify-between items-baseline">
+          <div className="font-medium truncate pr-2">{chat.title}</div>
+        </div>
 
         {chat.lastMessagePreview && (
-          <div className="text-sm text-gray-500 truncate">{chat.lastMessagePreview}</div>
+          <div className="text-sm text-gray-500 truncate dark:text-gray-400">
+            {chat.lastMessagePreview}
+          </div>
         )}
       </div>
+
+      {chat.unreadCount && chat.unreadCount > 0 ? (
+        <div className="ml-2 shrink-0">
+          <span className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-neutral-500 px-1 text-[11px] font-bold text-white shadow-sm">
+            {chat.unreadCount > 99 ? '99+' : chat.unreadCount}
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 };

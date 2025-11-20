@@ -33,6 +33,7 @@ export interface PrivateChatListResponse {
   id: number;
   title: string;
   type: ChatType;
+  unreadCount: number;
   avatar: Nullable<ChatAvatarMedia>;
   createdAt: string;
   updatedAt: string;
@@ -52,6 +53,7 @@ export interface PublicChatListResponse {
   id: number;
   title: string;
   type: ChatType;
+  unreadCount: number;
   createdAt: string;
   updatedAt: string;
   avatar: Nullable<ChatAvatarMedia>;
@@ -78,3 +80,5 @@ export interface ChatAvatarMedia {
   height: number;
   secureUrl: string;
 }
+
+export type ChatListType = PrivateChatListResponse | PublicChatListResponse;

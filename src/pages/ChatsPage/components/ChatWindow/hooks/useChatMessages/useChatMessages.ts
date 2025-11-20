@@ -7,6 +7,7 @@ import {
   useChatSocketSubscription,
   useInfiniteScrollTrigger,
   useLoadOlderMessages,
+  useMarkReadOnVisible,
   useSortedMessages,
 } from './hooks';
 import type { Nullable } from 'types/utils';
@@ -43,6 +44,15 @@ export const useChatMessages = (chatId: Nullable<number>) => {
   });
 
   useChatSocketSubscription(socket, chatId, user?.id, queryClient);
+
+  const lastMessage = messages[messages.length - 1];
+  const currentUserId = user?.id || null;
+
+  useMarkReadOnVisible({
+    targetRef: scroll.messagesEndRef,
+    lastMessage,
+    currentUserId,
+  });
 
   return {
     messages,

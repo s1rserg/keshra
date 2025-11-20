@@ -1,6 +1,11 @@
 import { type FC, useEffect, useState } from 'react';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'components/ui';
-import { useCreatePublicChat, useGetChatDetails, useGetChats } from './hooks';
+import {
+  useChatListSocketSubscription,
+  useCreatePublicChat,
+  useGetChatDetails,
+  useGetChats,
+} from './hooks';
 import { ChatSidebar, ChatWindow } from './components';
 import { ChatType, type CreatePublicChatDto, type User } from 'api';
 import type { Nullable } from 'types/utils';
@@ -17,6 +22,8 @@ export const ChatsPage: FC = () => {
   const { mutateAsync: createPublicChat, isPending: isCreatingChat } = useCreatePublicChat();
 
   const socket = useSocket();
+
+  useChatListSocketSubscription(chats);
 
   const [selectedChatId, setSelectedChatId] = useState<Nullable<number>>(null);
   const [previousChatId, setPreviousChatId] = useState<Nullable<number>>(null);
