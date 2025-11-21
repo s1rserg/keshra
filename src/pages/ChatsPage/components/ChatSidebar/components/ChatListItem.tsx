@@ -1,7 +1,8 @@
 import { type FC } from 'react';
-import type { PrivateChatListResponse, PublicChatListResponse } from 'api';
-import { Avatar, AvatarFallback, AvatarImage } from 'components/ui';
+import { ChatType, type PrivateChatListResponse, type PublicChatListResponse } from 'api';
+import { Avatar, AvatarFallback, AvatarImage, Badge } from 'components/ui';
 import { cn } from 'lib/utils';
+import { useIsUserOnline } from '../../../hooks';
 
 interface Props {
   chat: PrivateChatListResponse | PublicChatListResponse;
@@ -10,6 +11,10 @@ interface Props {
 }
 
 export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
+  const partnerId =
+    chat.type === ChatType.DIRECT_MESSAGES ? (chat as PrivateChatListResponse).partnerUserId : null;
+  const isOnline = useIsUserOnline(partnerId);
+
   return (
     <div
       className={cn(
@@ -19,7 +24,7 @@ export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
       )}
       onClick={onClick}
     >
-      <div className="flex shrink-0 items-start">
+      <div className="relative flex shrink-0 items-start">
         <Avatar className="h-10 w-10">
           {chat.avatar ? (
             <AvatarImage src={chat.avatar.secureUrl} />
@@ -27,6 +32,13 @@ export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
             <AvatarFallback>{chat.title?.[0]}</AvatarFallback>
           )}
         </Avatar>
+
+        {isOnline && (
+          <Badge
+            variant="default"
+            className="absolute left-7 bottom-0 h-3 w-3 p-0 rounded-full bg-green-500 border-2 border-white dark:border-gray-900"
+          />
+        )}
       </div>
 
       <div className="flex flex-col justify-center ml-3 flex-1 min-w-0">

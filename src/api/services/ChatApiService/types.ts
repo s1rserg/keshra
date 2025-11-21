@@ -34,6 +34,7 @@ export interface PrivateChatListResponse {
   title: string;
   type: ChatType;
   unreadCount: number;
+  partnerUserId: number;
   avatar: Nullable<ChatAvatarMedia>;
   createdAt: string;
   updatedAt: string;

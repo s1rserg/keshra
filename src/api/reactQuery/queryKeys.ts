@@ -7,4 +7,5 @@ export const QueryKeys = {
   messages: ['messages'],
   avatars: ['avatars'],
   chatAvatars: ['chatAvatars'],
+  onlineUsers: ['onlineUsers'],
 };

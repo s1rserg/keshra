@@ -5,6 +5,7 @@ import {
   useCreatePublicChat,
   useGetChatDetails,
   useGetChats,
+  useGetOnlineUsers,
 } from './hooks';
 import { ChatSidebar, ChatWindow } from './components';
 import { ChatType, type CreatePublicChatDto, type User } from 'api';
@@ -18,8 +19,10 @@ export const ChatsPage: FC = () => {
   const { t } = useTranslation('chatsPage');
 
   const { data: user } = useGetUser();
-  const { data: chats, isLoading: isLoadingChats } = useGetChats();
+  const { data: chats, isLoading: isLoadingChats, isSuccess } = useGetChats();
   const { mutateAsync: createPublicChat, isPending: isCreatingChat } = useCreatePublicChat();
+
+  useGetOnlineUsers({ enabled: isSuccess });
 
   const socket = useSocket();
 
