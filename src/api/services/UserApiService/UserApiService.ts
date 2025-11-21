@@ -17,6 +17,13 @@ class UserApiService {
     };
   }
 
+  public fetchOnline(): AxiosRequestConfig {
+    return {
+      method: 'GET',
+      url: '/users/online',
+    };
+  }
+
   public updateProfile(data: UpdateUserDto): AxiosRequestConfig {
     return {
       method: 'PATCH',

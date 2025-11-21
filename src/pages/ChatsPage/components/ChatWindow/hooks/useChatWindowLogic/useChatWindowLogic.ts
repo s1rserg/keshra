@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { ChatDetailsResponse, User } from 'api';
+import { ChatType, type ChatDetailsResponse, type User } from 'api';
 import type { Nullable } from 'types/utils';
 import { useCreateMessage, useJoinChat } from '../../hooks';
 import { useCreatePrivateChat } from '../../../../hooks';
@@ -32,6 +32,10 @@ export const useChatWindowLogic = ({
         title: chatDetails.title,
         avatar: chatDetails.avatar,
         isMember: chatDetails.participants.some((p) => p.user.id === currentUser.id),
+        partnerUserId:
+          chatDetails?.type === ChatType.DIRECT_MESSAGES
+            ? chatDetails.participants.find((p) => p.user.id !== currentUser.id)?.user.id
+            : null,
       };
     }
     if (recipientUser) {

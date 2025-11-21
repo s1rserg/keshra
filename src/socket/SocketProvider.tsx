@@ -6,6 +6,7 @@ import { localStorageService } from 'utils/LocalStorageService';
 import type { Nullable } from 'types/utils';
 import { useGetUser } from 'hooks';
 import { handleApiError } from 'api';
+import { useOnlinePresenceSubscription } from './hooks';
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const { isSuccess: isAuthenticated } = useGetUser();
@@ -33,6 +34,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       setSocket(null);
     };
   }, [isAuthenticated]);
+
+  useOnlinePresenceSubscription(socket);
 
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };

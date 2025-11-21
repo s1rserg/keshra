@@ -12,7 +12,13 @@ interface Props {
 
 export const ChatAvatar: FC<Props> = ({ onClick, disabled, avatar, placeholder }) => {
   return (
-    <Button variant="ghost" size="icon" className="relative" onClick={onClick} disabled={disabled}>
+    <Button
+      variant="ghost"
+      size="icon"
+      className="relative disabled:opacity-100"
+      onClick={onClick}
+      disabled={disabled}
+    >
       <Avatar className="h-8 w-8">
         {avatar ? (
           <AvatarImage src={avatar.secureUrl} />

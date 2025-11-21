@@ -6,12 +6,15 @@ import type { Nullable, ValueOf } from 'types/utils';
 import { IconButton } from 'components/IconButton';
 import { ViewMode } from '../../types';
 import { useTranslation } from 'react-i18next';
+import { useIsUserOnline } from '../../../../hooks';
+import { Badge } from 'components/ui';
 
 interface Props {
   title: string;
   avatar: Nullable<ChatDetailsResponse['avatar']>;
   isDraft: boolean;
   chatType?: ChatType;
+  partnerUserId: Nullable<number>;
   currentView: ValueOf<typeof ViewMode>;
   onToggleView: () => void;
   onAvatarClick: () => void;
@@ -22,6 +25,7 @@ export const ChatHeader: FC<Props> = ({
   avatar,
   isDraft,
   chatType,
+  partnerUserId,
   currentView,
   onToggleView,
   onAvatarClick,
@@ -29,16 +33,25 @@ export const ChatHeader: FC<Props> = ({
   const { t } = useTranslation('chatsPage');
 
   const isDirectMessage = chatType === ChatType.DIRECT_MESSAGES;
+  const isOnline = useIsUserOnline(partnerUserId);
 
   return (
     <div className="px-4 py-3.5 border-b border-gray-200 flex items-center justify-between shrink-0">
-      <div className="flex items-center gap-3 overflow-hidden">
+      <div className="flex items-center gap-3 overflow-hidden relative">
         <ChatAvatar
           onClick={onAvatarClick}
           disabled={isDraft || isDirectMessage}
           avatar={avatar}
           placeholder={title}
         />
+
+        {isOnline && (
+          <Badge
+            variant="default"
+            className="absolute left-6 bottom-0 h-3 w-3 p-0 rounded-full bg-green-500 border-2 border-white dark:border-gray-900"
+          />
+        )}
+
         <span className="font-bold truncate">{title}</span>
       </div>
 

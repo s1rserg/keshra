@@ -84,6 +84,7 @@ export const ChatWindow: FC<Props> = ({
         avatar={displayData.avatar}
         isDraft={isDraft}
         chatType={chatDetails?.type}
+        partnerUserId={displayData.partnerUserId || null}
         currentView={viewMode}
         onToggleView={handleToggleView}
         onAvatarClick={openAvatarModal}
