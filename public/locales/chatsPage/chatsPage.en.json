@@ -33,7 +33,8 @@
       "message": "Enter message"
     },
     "buttons": {
-      "send": "Send"
+      "send": "Send",
+      "addEmoji": "Add Emoji"
     }
   },
   "search": {
