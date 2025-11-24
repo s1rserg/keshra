@@ -100,6 +100,7 @@ export const ChatWindow: FC<Props> = ({
         <ChatMessagesView
           messages={messages}
           currentUserId={currentUser.id}
+          chatId={chatId}
           isLoading={isLoadingMessages}
           isDraft={isDraft}
           hasPreviousPage={hasPreviousPage}
@@ -109,6 +110,7 @@ export const ChatWindow: FC<Props> = ({
           scrollRef={scrollContainerRef}
           topTriggerRef={topTriggerRef}
           bottomRef={messagesEndRef}
+          onSelectUser={onSelectUser}
         />
       )}
 

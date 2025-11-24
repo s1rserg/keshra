@@ -1,13 +1,22 @@
 import { type FC } from 'react';
-import { type MessageWithAuthorResponseDto } from 'api';
+import { type MessageWithAuthorResponseDto, type User } from 'api';
 import { Message, DateSeparator } from './components';
 
 interface Props {
   messages: MessageWithAuthorResponseDto[];
   currentUserId: number;
+  onReactionSelect: (messageId: number, emoji: string) => void;
+  onReactionClick: (messageId: number, emoji: string, isMyReaction: boolean) => void;
+  onSelectUser: (user: User) => void;
 }
 
-export const MessageList: FC<Props> = ({ messages, currentUserId }) => {
+export const MessageList: FC<Props> = ({
+  messages,
+  currentUserId,
+  onReactionClick,
+  onReactionSelect,
+  onSelectUser,
+}) => {
   return (
     <div className="flex-1 p-4 space-y-2">
       {messages.map((msg, idx) => {
@@ -19,7 +28,14 @@ export const MessageList: FC<Props> = ({ messages, currentUserId }) => {
         return (
           <div key={msg.id}>
             {showDateSeparator && <DateSeparator date={msg.createdAt} />}
-            <Message message={msg} isOwnMessage={msg.authorId === currentUserId} />
+            <Message
+              message={msg}
+              isOwnMessage={msg.authorId === currentUserId}
+              currentUserId={currentUserId}
+              onReactionClick={onReactionClick}
+              onReactionSelect={onReactionSelect}
+              onSelectUser={onSelectUser}
+            />
           </div>
         );
       })}

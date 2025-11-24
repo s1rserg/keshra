@@ -3,12 +3,18 @@ import { MessageList, ScrollDownButton } from './components';
 import { Loader2 } from 'lucide-react';
 import { Loader } from 'components/Loader';
 import { useTranslation } from 'react-i18next';
-import type { MessageWithAuthorResponseDto } from 'api';
+import type { MessageWithAuthorResponseDto, User } from 'api';
 import type { Nullable } from 'types/utils';
+import {
+  useAddReactionMutation,
+  useReactionSocketSubscription,
+  useRemoveReactionMutation,
+} from './hooks';
 
 interface Props {
   messages: MessageWithAuthorResponseDto[];
   currentUserId: number;
+  chatId: number;
   isLoading: boolean;
   isDraft: boolean;
   hasPreviousPage: boolean;
@@ -18,11 +24,13 @@ interface Props {
   scrollRef: RefObject<Nullable<HTMLDivElement>>;
   topTriggerRef: (node: Nullable<HTMLDivElement>) => (() => void | undefined) | undefined;
   bottomRef: RefObject<Nullable<HTMLDivElement>>;
+  onSelectUser: (user: User) => void;
 }
 
 export const ChatMessagesView: FC<Props> = ({
   messages,
   currentUserId,
+  chatId,
   isLoading,
   isDraft,
   hasPreviousPage,
@@ -32,8 +40,30 @@ export const ChatMessagesView: FC<Props> = ({
   scrollRef,
   topTriggerRef,
   bottomRef,
+  onSelectUser,
 }) => {
   const { t } = useTranslation('chatsPage');
+
+  useReactionSocketSubscription(chatId);
+  const addReaction = useAddReactionMutation(chatId);
+  const removeReaction = useRemoveReactionMutation(chatId);
+
+  const handleReactionSelect = (messageId: number, emoji: string) => {
+    const message = messages.find((m) => m.id === messageId);
+    const myCurrentReaction = message?.reactions.find((r) => r.authorId === currentUserId);
+
+    if (myCurrentReaction?.emoji === emoji) return;
+
+    addReaction.mutate({ messageId, emoji });
+  };
+
+  const handleReactionClick = (messageId: number, emoji: string, isMyReaction: boolean) => {
+    if (isMyReaction) {
+      removeReaction.mutate(messageId);
+      return;
+    }
+    addReaction.mutate({ messageId, emoji });
+  };
 
   return (
     <>
@@ -49,7 +79,13 @@ export const ChatMessagesView: FC<Props> = ({
         {isLoading && !messages.length && !isDraft ? (
           <Loader />
         ) : (
-          <MessageList messages={isDraft ? [] : messages} currentUserId={currentUserId} />
+          <MessageList
+            messages={isDraft ? [] : messages}
+            currentUserId={currentUserId}
+            onReactionSelect={handleReactionSelect}
+            onReactionClick={handleReactionClick}
+            onSelectUser={onSelectUser}
+          />
         )}
 
         {isDraft && (
