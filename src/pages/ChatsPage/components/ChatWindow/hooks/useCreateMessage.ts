@@ -36,6 +36,7 @@ export const useCreateMessage = () => {
         content: content,
         chatId: chatId,
         segNumber: 0,
+        reactions: [],
         createdAt: new Date().toISOString(),
         author: user,
         authorId: user.id,

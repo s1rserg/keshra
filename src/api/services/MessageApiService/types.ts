@@ -1,5 +1,6 @@
 import type { ValueOf } from 'types/utils';
 import type { User } from '../UserApiService';
+import type { Reaction } from '../ReactionApiService';
 
 export interface CreateMessageDto {
   content: string;
@@ -25,6 +26,7 @@ export interface MessageBaseResponseDto {
   id: number;
   content: string;
   segNumber: number;
+  reactions: Reaction[];
   authorId: number;
   chatId: number;
   createdAt: string;
