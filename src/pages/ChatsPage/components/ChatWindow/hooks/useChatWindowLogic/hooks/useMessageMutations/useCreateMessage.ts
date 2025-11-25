@@ -8,6 +8,7 @@ import {
   type MessageBaseResponseDto,
 } from 'api';
 import { useGetUser } from 'hooks';
+import type { Nullable } from 'types/utils';
 
 export const useCreateMessage = () => {
   const queryClient = useQueryClient();
@@ -23,13 +24,25 @@ export const useCreateMessage = () => {
 
     onMutate: async (newMessage: CreateMessageDto) => {
       if (!user) return;
-      const { chatId, content } = newMessage;
+      const { chatId, content, replyToId } = newMessage;
       const queryKey = getQueryKey(chatId);
 
       await queryClient.cancelQueries({ queryKey });
 
       const previousMessages =
         queryClient.getQueryData<InfiniteData<MessageWithAuthorResponseDto[]>>(queryKey);
+
+      let replyToMessageObj: Nullable<MessageWithAuthorResponseDto> = null;
+
+      if (replyToId && previousMessages) {
+        for (const page of previousMessages.pages) {
+          const found = page.find((m) => m.id === replyToId);
+          if (found) {
+            replyToMessageObj = found;
+            break;
+          }
+        }
+      }
 
       const optimisticMessage: MessageWithAuthorResponseDto = {
         id: Math.random(),
@@ -41,6 +54,8 @@ export const useCreateMessage = () => {
         author: user,
         authorId: user.id,
         updatedAt: new Date().toISOString(),
+        replyToId: replyToId || null,
+        replyToMessage: replyToMessageObj,
       };
 
       queryClient.setQueryData<InfiniteData<MessageWithAuthorResponseDto[]>>(
@@ -92,7 +107,13 @@ export const useCreateMessage = () => {
             ...oldData,
             pages: oldData.pages.map((page) =>
               page.map((message) =>
-                message.id === tempId ? { ...realMessage, author: user } : message,
+                message.id === tempId
+                  ? {
+                      ...realMessage,
+                      author: user,
+                      replyToMessage: context.optimisticMessage.replyToMessage,
+                    }
+                  : message,
               ),
             ),
           };

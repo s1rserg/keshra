@@ -31,7 +31,8 @@
   "messageMenu": {
     "buttons": {
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "reply": "Reply"
     }
   },
   "sendMessage": {
@@ -48,6 +49,11 @@
     "buttons": {
       "cancel": "Cancel",
       "save": "Save"
+    }
+  },
+  "replyMessage": {
+    "buttons": {
+      "cancel": "Cancel"
     }
   },
   "search": {

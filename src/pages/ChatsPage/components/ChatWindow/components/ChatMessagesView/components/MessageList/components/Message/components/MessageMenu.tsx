@@ -1,5 +1,5 @@
 import { ContextMenuItem, ContextMenuSeparator } from 'components/ui';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Reply, Trash2 } from 'lucide-react';
 import type { FC } from 'react';
 import Picker, { Theme, type EmojiClickData } from 'emoji-picker-react';
 import { useTheme } from 'styles';
@@ -12,6 +12,7 @@ interface Props {
   message: MessageWithAuthorResponseDto;
   onEdit: (message: MessageWithAuthorResponseDto) => void;
   onDelete: (messageId: number) => void;
+  onReply: (message: MessageWithAuthorResponseDto) => void;
 }
 
 export const MessageMenu: FC<Props> = ({
@@ -20,6 +21,7 @@ export const MessageMenu: FC<Props> = ({
   message,
   onDelete,
   onEdit,
+  onReply,
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation('chatsPage');
@@ -38,22 +40,28 @@ export const MessageMenu: FC<Props> = ({
         />
       </div>
 
-      {isOwnMessage && (
-        <div className="bg-white dark:bg-gray-900 border dark:border-gray-700 rounded-md shadow-xl p-1 w-[300px]">
-          <ContextMenuItem onClick={() => onEdit(message)} className="cursor-pointer gap-2">
-            <Pencil className="w-4 h-4" />
-            {t('messageMenu.buttons.edit')}
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem
-            onClick={() => onDelete(message.id)}
-            className="cursor-pointer gap-2 text-red-500 focus:text-red-500 focus:bg-red-50 dark:focus:bg-red-900/20"
-          >
-            <Trash2 className="w-4 h-4" />
-            {t('messageMenu.buttons.delete')}
-          </ContextMenuItem>
-        </div>
-      )}
+      <div className="bg-white dark:bg-gray-900 border dark:border-gray-700 rounded-md shadow-xl p-1 w-[300px]">
+        <ContextMenuItem onClick={() => onReply(message)} className="cursor-pointer gap-2">
+          <Reply className="w-4 h-4" />
+          {t('messageMenu.buttons.reply')}
+        </ContextMenuItem>
+        {isOwnMessage && (
+          <>
+            <ContextMenuItem onClick={() => onEdit(message)} className="cursor-pointer gap-2">
+              <Pencil className="w-4 h-4" />
+              {t('messageMenu.buttons.edit')}
+            </ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem
+              onClick={() => onDelete(message.id)}
+              className="cursor-pointer gap-2 text-red-500 focus:text-red-500 focus:bg-red-50 dark:focus:bg-red-900/20"
+            >
+              <Trash2 className="w-4 h-4" />
+              {t('messageMenu.buttons.delete')}
+            </ContextMenuItem>
+          </>
+        )}
+      </div>
     </>
   );
 };

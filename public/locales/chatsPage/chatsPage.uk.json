@@ -32,7 +32,8 @@
   "messageMenu": {
     "buttons": {
       "edit": "Редагувати",
-      "delete": "Видалити"
+      "delete": "Видалити",
+      "reply": "Відповісти"
     }
   },
   "sendMessage": {
@@ -48,6 +49,11 @@
     "title": "Редагування повідомлення",
     "buttons": {
       "save": "Зберегти",
+      "cancel": "Скасувати"
+    }
+  },
+  "replyMessage": {
+    "buttons": {
       "cancel": "Скасувати"
     }
   },

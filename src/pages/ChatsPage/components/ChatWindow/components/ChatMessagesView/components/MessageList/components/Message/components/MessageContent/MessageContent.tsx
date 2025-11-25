@@ -1,6 +1,7 @@
 import type { MessageWithAuthorResponseDto, User } from 'api';
 import { cn } from 'lib/utils';
 import type { FC } from 'react';
+import { RepliedMessage } from './components';
 
 interface Props {
   message: MessageWithAuthorResponseDto;
@@ -24,6 +25,13 @@ export const MessageContent: FC<Props> = ({ message, isOwnMessage, onSelectUser 
           : 'bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 rounded-bl-sm border border-gray-100 dark:border-gray-700/50',
       )}
     >
+      {message.replyToId && (
+        <RepliedMessage
+          replyToMessage={message.replyToMessage}
+          isOwnMessage={isOwnMessage}
+          onClick={() => {}}
+        />
+      )}
       {!isOwnMessage && (
         <div
           className={cn('text-xs font-semibold mb-1 cursor-pointer hover:underline')}
