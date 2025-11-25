@@ -25,6 +25,8 @@ interface Props {
   topTriggerRef: (node: Nullable<HTMLDivElement>) => (() => void | undefined) | undefined;
   bottomRef: RefObject<Nullable<HTMLDivElement>>;
   onSelectUser: (user: User) => void;
+  onEditMessage: (msg: MessageWithAuthorResponseDto) => void;
+  onDeleteMessage: (msgId: number) => void;
 }
 
 export const ChatMessagesView: FC<Props> = ({
@@ -41,6 +43,8 @@ export const ChatMessagesView: FC<Props> = ({
   topTriggerRef,
   bottomRef,
   onSelectUser,
+  onEditMessage,
+  onDeleteMessage,
 }) => {
   const { t } = useTranslation('chatsPage');
 
@@ -85,6 +89,8 @@ export const ChatMessagesView: FC<Props> = ({
             onReactionSelect={handleReactionSelect}
             onReactionClick={handleReactionClick}
             onSelectUser={onSelectUser}
+            onEditMessage={onEditMessage}
+            onDeleteMessage={onDeleteMessage}
           />
         )}
 

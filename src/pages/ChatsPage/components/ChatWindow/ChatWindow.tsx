@@ -9,6 +9,7 @@ import {
   ChatHeader,
   ChatMessagesView,
   ChatParticipantsView,
+  DeleteMessageModal,
 } from './components';
 import { useModal } from 'hooks';
 import type { Nullable, ValueOf } from 'types/utils';
@@ -51,17 +52,30 @@ export const ChatWindow: FC<Props> = ({
     scrollToBottom,
   } = useChatMessages(!chatDetails && !!recipientUser ? null : activeChatId);
 
-  const { isDraft, chatId, displayData, handleSendMessage, joinChat, isJoining } =
-    useChatWindowLogic({
-      chatDetails,
-      recipientUser,
-      currentUser,
-      onChatCreated,
-      scrollToBottom: () => {
-        setViewMode(ViewMode.MESSAGES);
-        scrollToBottom('smooth');
-      },
-    });
+  const {
+    isDraft,
+    chatId,
+    displayData,
+    handleSendMessage,
+    joinChat,
+    isJoining,
+    editingMessage,
+    setEditingMessage,
+    handleEditMessage,
+    messageToDeleteId,
+    setMessageToDeleteId,
+    handleDeleteMessage,
+    isDeleting,
+  } = useChatWindowLogic({
+    chatDetails,
+    recipientUser,
+    currentUser,
+    onChatCreated,
+    scrollToBottom: () => {
+      setViewMode(ViewMode.MESSAGES);
+      scrollToBottom('smooth');
+    },
+  });
 
   const handleToggleView = () => {
     setViewMode((prev) => (prev === ViewMode.MESSAGES ? ViewMode.PARTICIPANTS : ViewMode.MESSAGES));
@@ -111,18 +125,32 @@ export const ChatWindow: FC<Props> = ({
           topTriggerRef={topTriggerRef}
           bottomRef={messagesEndRef}
           onSelectUser={onSelectUser}
+          onEditMessage={(msg) => setEditingMessage(msg)}
+          onDeleteMessage={(id) => setMessageToDeleteId(id)}
         />
       )}
 
       {viewMode === ViewMode.MESSAGES && (
         <>
           {displayData.isMember ? (
-            <ChatInput onSubmit={handleSendMessage} />
+            <ChatInput
+              onSendMessage={handleSendMessage}
+              onEditMessage={handleEditMessage}
+              editingMessage={editingMessage}
+              onCancelEdit={() => setEditingMessage(null)}
+            />
           ) : (
             <JoinChatBar onJoin={() => joinChat(chatId)} isLoading={isJoining} />
           )}
         </>
       )}
+
+      <DeleteMessageModal
+        isOpen={!!messageToDeleteId}
+        onClose={() => setMessageToDeleteId(null)}
+        onConfirm={() => void handleDeleteMessage()}
+        isLoading={isDeleting}
+      />
 
       {!isDraft && (
         <ChatAvatarModal

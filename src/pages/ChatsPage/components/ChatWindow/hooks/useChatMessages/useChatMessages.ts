@@ -1,7 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetUser } from 'hooks';
 import { useSocket } from 'socket';
-import { useGetMessages } from '../useGetMessages';
 import {
   useAutoScroll,
   useChatSocketSubscription,
@@ -9,6 +8,7 @@ import {
   useLoadOlderMessages,
   useMarkReadOnVisible,
   useSortedMessages,
+  useGetMessages,
 } from './hooks';
 import type { Nullable } from 'types/utils';
 

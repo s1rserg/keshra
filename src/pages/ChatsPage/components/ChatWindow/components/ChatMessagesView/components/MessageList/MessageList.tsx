@@ -8,6 +8,8 @@ interface Props {
   onReactionSelect: (messageId: number, emoji: string) => void;
   onReactionClick: (messageId: number, emoji: string, isMyReaction: boolean) => void;
   onSelectUser: (user: User) => void;
+  onEditMessage: (msg: MessageWithAuthorResponseDto) => void;
+  onDeleteMessage: (msgId: number) => void;
 }
 
 export const MessageList: FC<Props> = ({
@@ -16,6 +18,8 @@ export const MessageList: FC<Props> = ({
   onReactionClick,
   onReactionSelect,
   onSelectUser,
+  onEditMessage,
+  onDeleteMessage,
 }) => {
   return (
     <div className="flex-1 p-4 space-y-2">
@@ -35,6 +39,8 @@ export const MessageList: FC<Props> = ({
               onReactionClick={onReactionClick}
               onReactionSelect={onReactionSelect}
               onSelectUser={onSelectUser}
+              onEdit={onEditMessage}
+              onDelete={onDeleteMessage}
             />
           </div>
         );

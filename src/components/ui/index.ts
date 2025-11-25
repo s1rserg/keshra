@@ -11,3 +11,4 @@ export * from './dialog';
 export * from './slider';
 export * from './card';
 export * from './context-menu';
+export * from './alert-dialog';

@@ -5,6 +5,7 @@ import {
   ServerToClientEvent,
   useSocket,
   type ChatDeltaNewPayload,
+  type ChatDeltaUpdatePayload,
 } from 'socket';
 import { QueryKeys, type ChatListType } from 'api';
 import { useGetUser } from 'hooks';
@@ -28,14 +29,14 @@ export const useChatListSocketSubscription = (chats: ChatListType[] | undefined)
   useEffect(() => {
     if (!socket) return;
 
-    const handleUnreadUpdate = (payload: ChatDeltaNewPayload) => {
+    const handleChatListUpdate = (payload: ChatDeltaNewPayload, isNewMessage: boolean) => {
       queryClient.setQueryData(QueryKeys.chats, (oldChats: ChatListType[] | undefined) => {
         if (!oldChats) return oldChats;
 
         const updatedChats = oldChats.map((chat) => {
           if (chat.id === payload.chatId) {
             let unreadCount = chat.unreadCount;
-            if (payload.lastMessageAuthor !== user?.username) {
+            if (isNewMessage && payload.lastMessageAuthor !== user?.username) {
               unreadCount++;
             }
             return {
@@ -50,10 +51,20 @@ export const useChatListSocketSubscription = (chats: ChatListType[] | undefined)
       });
     };
 
-    socket.on(ServerToClientEvent.CHAT_DELTA_NEW, handleUnreadUpdate);
+    const onNewMessage = (payload: ChatDeltaNewPayload) => {
+      handleChatListUpdate(payload, true);
+    };
+
+    const onUpdateMessage = (payload: ChatDeltaUpdatePayload) => {
+      handleChatListUpdate(payload, false);
+    };
+
+    socket.on(ServerToClientEvent.CHAT_DELTA_NEW, onNewMessage);
+    socket.on(ServerToClientEvent.CHAT_DELTA_UPDATE, onUpdateMessage);
 
     return () => {
-      socket.off(ServerToClientEvent.CHAT_DELTA_NEW, handleUnreadUpdate);
+      socket.off(ServerToClientEvent.CHAT_DELTA_NEW, onNewMessage);
+      socket.off(ServerToClientEvent.CHAT_DELTA_UPDATE, onUpdateMessage);
     };
   }, [socket, queryClient, user?.username]);
 };

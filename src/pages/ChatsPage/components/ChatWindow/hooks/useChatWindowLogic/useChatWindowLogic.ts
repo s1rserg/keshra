@@ -1,8 +1,13 @@
-import { useMemo } from 'react';
-import { ChatType, type ChatDetailsResponse, type User } from 'api';
+import { useMemo, useState } from 'react';
+import {
+  ChatType,
+  type ChatDetailsResponse,
+  type MessageWithAuthorResponseDto,
+  type User,
+} from 'api';
 import type { Nullable } from 'types/utils';
-import { useCreateMessage, useJoinChat } from '../../hooks';
 import { useCreatePrivateChat } from '../../../../hooks';
+import { useJoinChat, useCreateMessage, useUpdateMessage, useDeleteMessage } from './hooks';
 
 interface UseChatWindowLogicProps {
   chatDetails?: Nullable<ChatDetailsResponse>;
@@ -22,6 +27,12 @@ export const useChatWindowLogic = ({
   const { mutateAsync: createMessage } = useCreateMessage();
   const { mutateAsync: createPrivateChat } = useCreatePrivateChat();
   const { mutate: joinChat, isPending: isJoining } = useJoinChat();
+  const { mutateAsync: updateMessage } = useUpdateMessage();
+  const { mutateAsync: deleteMessage, isPending: isDeleting } = useDeleteMessage();
+
+  const [editingMessage, setEditingMessage] =
+    useState<Nullable<MessageWithAuthorResponseDto>>(null);
+  const [messageToDeleteId, setMessageToDeleteId] = useState<Nullable<number>>(null);
 
   const isDraft = !chatDetails && !!recipientUser;
   const chatId = chatDetails?.id ?? -1;
@@ -65,6 +76,26 @@ export const useChatWindowLogic = ({
     }
   };
 
+  const handleEditMessage = async (messageId: number, content: string) => {
+    if (!chatDetails) return;
+    try {
+      await updateMessage({ id: messageId, chatId: chatDetails.id, data: { content } });
+      setEditingMessage(null);
+    } catch (_e) {
+      /* empty */
+    }
+  };
+
+  const handleDeleteMessage = async () => {
+    if (!messageToDeleteId || !chatDetails) return;
+    try {
+      await deleteMessage({ id: messageToDeleteId, chatId: chatDetails.id });
+      setMessageToDeleteId(null);
+    } catch (_e) {
+      /* empty */
+    }
+  };
+
   return {
     isDraft,
     chatId,
@@ -72,5 +103,12 @@ export const useChatWindowLogic = ({
     handleSendMessage,
     joinChat,
     isJoining,
+    editingMessage,
+    setEditingMessage,
+    handleEditMessage,
+    messageToDeleteId,
+    setMessageToDeleteId,
+    handleDeleteMessage,
+    isDeleting,
   };
 };

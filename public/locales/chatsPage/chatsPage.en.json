@@ -28,6 +28,12 @@
       "create": "Create"
     }
   },
+  "messageMenu": {
+    "buttons": {
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
   "sendMessage": {
     "placeholders": {
       "message": "Enter message"
@@ -35,6 +41,13 @@
     "buttons": {
       "send": "Send",
       "addEmoji": "Add Emoji"
+    }
+  },
+  "editMessage": {
+    "title": "Edit Message",
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "search": {
@@ -45,6 +58,14 @@
   "tabs": {
     "publicChats": "Public Chats",
     "users": "Users"
+  },
+  "deleteMessageModal": {
+    "title": "Delete Message",
+    "description": "Are you sure you want to delete this message? This action cannot be undone.",
+    "buttons": {
+      "cancel": "Cancel",
+      "delete": "Delete"
+    }
   },
   "validation": {
     "titleMin": "Title must be at least 3 characters",

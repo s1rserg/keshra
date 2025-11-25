@@ -7,6 +7,10 @@ export interface CreateMessageDto {
   chatId: number;
 }
 
+export interface UpdateMessageDto {
+  content: string;
+}
+
 export const CursorDirection = {
   OLDER: 'older',
   NEWER: 'newer',
