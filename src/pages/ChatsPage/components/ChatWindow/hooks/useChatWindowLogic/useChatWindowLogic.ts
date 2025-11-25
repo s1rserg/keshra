@@ -32,6 +32,8 @@ export const useChatWindowLogic = ({
 
   const [editingMessage, setEditingMessage] =
     useState<Nullable<MessageWithAuthorResponseDto>>(null);
+  const [replyingMessage, setReplyingMessage] =
+    useState<Nullable<MessageWithAuthorResponseDto>>(null);
   const [messageToDeleteId, setMessageToDeleteId] = useState<Nullable<number>>(null);
 
   const isDraft = !chatDetails && !!recipientUser;
@@ -59,7 +61,7 @@ export const useChatWindowLogic = ({
     return null;
   }, [chatDetails, recipientUser, currentUser.id]);
 
-  const handleSendMessage = async (content: string) => {
+  const handleSendMessage = async (content: string, replyToId?: number) => {
     try {
       let targetChatId = chatId;
 
@@ -69,11 +71,17 @@ export const useChatWindowLogic = ({
         if (onChatCreated) onChatCreated(newChat.id);
       }
 
-      await createMessage({ chatId: targetChatId, content });
+      await createMessage({ chatId: targetChatId, content, replyToId });
+      setReplyingMessage(null);
       scrollToBottom();
     } catch (_error) {
       /* empty */
     }
+  };
+
+  const handleReplyMessage = (msg: MessageWithAuthorResponseDto) => {
+    setReplyingMessage(msg);
+    if (editingMessage) setEditingMessage(null);
   };
 
   const handleEditMessage = async (messageId: number, content: string) => {
@@ -110,5 +118,8 @@ export const useChatWindowLogic = ({
     setMessageToDeleteId,
     handleDeleteMessage,
     isDeleting,
+    replyingMessage,
+    setReplyingMessage,
+    handleReplyMessage,
   };
 };

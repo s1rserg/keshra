@@ -27,6 +27,7 @@ interface Props {
   onSelectUser: (user: User) => void;
   onEditMessage: (msg: MessageWithAuthorResponseDto) => void;
   onDeleteMessage: (msgId: number) => void;
+  onReplyMessage: (message: MessageWithAuthorResponseDto) => void;
 }
 
 export const ChatMessagesView: FC<Props> = ({
@@ -45,6 +46,7 @@ export const ChatMessagesView: FC<Props> = ({
   onSelectUser,
   onEditMessage,
   onDeleteMessage,
+  onReplyMessage,
 }) => {
   const { t } = useTranslation('chatsPage');
 
@@ -91,6 +93,7 @@ export const ChatMessagesView: FC<Props> = ({
             onSelectUser={onSelectUser}
             onEditMessage={onEditMessage}
             onDeleteMessage={onDeleteMessage}
+            onReplyMessage={onReplyMessage}
           />
         )}
 

@@ -6,21 +6,25 @@ import { IconButton } from 'components/IconButton';
 import { useTranslation } from 'react-i18next';
 import { type CreateMessageDto, type MessageWithAuthorResponseDto } from 'api';
 import { type EmojiClickData } from 'emoji-picker-react';
-import { EmojiPickerButton, EditMessageBar } from './components';
+import { EmojiPickerButton, EditMessageBar, ReplyMessageBar } from './components';
 import type { Nullable } from 'types/utils';
 
 interface Props {
-  onSendMessage: (content: string) => Promise<void>;
+  onSendMessage: (content: string, replyToId?: number) => Promise<void>;
   onEditMessage: (messageId: number, content: string) => Promise<void>;
   editingMessage: Nullable<MessageWithAuthorResponseDto>;
+  replyingMessage: Nullable<MessageWithAuthorResponseDto>;
   onCancelEdit: () => void;
+  onCancelReply: () => void;
 }
 
 export const ChatInput: FC<Props> = ({
   onSendMessage,
   onEditMessage,
   editingMessage,
+  replyingMessage,
   onCancelEdit,
+  onCancelReply,
 }) => {
   const { t } = useTranslation('chatsPage');
 
@@ -34,7 +38,7 @@ export const ChatInput: FC<Props> = ({
     if (editingMessage) {
       await onEditMessage(editingMessage.id, content);
     } else {
-      await onSendMessage(content);
+      await onSendMessage(content, replyingMessage?.id);
     }
 
     if (!editingMessage) {
@@ -51,19 +55,26 @@ export const ChatInput: FC<Props> = ({
   useEffect(() => {
     if (editingMessage) {
       setValue('content', editingMessage.content);
-      setFocus('content');
-    } else {
-      reset();
     }
-  }, [editingMessage, setValue, setFocus, reset]);
+
+    const timer = setTimeout(() => {
+      setFocus('content');
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [editingMessage, replyingMessage, setValue, setFocus]);
 
   return (
     <div className="flex flex-col border-t border-gray-200 dark:border-gray-800">
-      <EditMessageBar
-        isEditing={!!editingMessage}
-        onCancel={onCancelEdit}
-        originalContent={editingMessage?.content}
-      />
+      {editingMessage ? (
+        <EditMessageBar
+          isEditing={!!editingMessage}
+          onCancel={onCancelEdit}
+          originalContent={editingMessage.content}
+        />
+      ) : (
+        <ReplyMessageBar replyingTo={replyingMessage} onCancel={onCancelReply} />
+      )}
 
       <div className="p-4 pt-0 bg-background z-10">
         <form onSubmit={(e) => void handleFormSubmit(e)} className="flex gap-2 items-center">

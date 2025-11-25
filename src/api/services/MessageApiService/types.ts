@@ -1,10 +1,11 @@
-import type { ValueOf } from 'types/utils';
+import type { Nullable, ValueOf } from 'types/utils';
 import type { User } from '../UserApiService';
 import type { Reaction } from '../ReactionApiService';
 
 export interface CreateMessageDto {
   content: string;
   chatId: number;
+  replyToId?: number;
 }
 
 export interface UpdateMessageDto {
@@ -33,10 +34,12 @@ export interface MessageBaseResponseDto {
   reactions: Reaction[];
   authorId: number;
   chatId: number;
+  replyToId: Nullable<number>;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface MessageWithAuthorResponseDto extends MessageBaseResponseDto {
   author: User;
+  replyToMessage: Nullable<MessageWithAuthorResponseDto>;
 }

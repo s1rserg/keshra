@@ -10,6 +10,7 @@ interface Props {
   onSelectUser: (user: User) => void;
   onEditMessage: (msg: MessageWithAuthorResponseDto) => void;
   onDeleteMessage: (msgId: number) => void;
+  onReplyMessage: (message: MessageWithAuthorResponseDto) => void;
 }
 
 export const MessageList: FC<Props> = ({
@@ -20,6 +21,7 @@ export const MessageList: FC<Props> = ({
   onSelectUser,
   onEditMessage,
   onDeleteMessage,
+  onReplyMessage,
 }) => {
   return (
     <div className="flex-1 p-4 space-y-2">
@@ -41,6 +43,7 @@ export const MessageList: FC<Props> = ({
               onSelectUser={onSelectUser}
               onEdit={onEditMessage}
               onDelete={onDeleteMessage}
+              onReply={onReplyMessage}
             />
           </div>
         );

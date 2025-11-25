@@ -66,6 +66,9 @@ export const ChatWindow: FC<Props> = ({
     setMessageToDeleteId,
     handleDeleteMessage,
     isDeleting,
+    replyingMessage,
+    setReplyingMessage,
+    handleReplyMessage,
   } = useChatWindowLogic({
     chatDetails,
     recipientUser,
@@ -127,6 +130,7 @@ export const ChatWindow: FC<Props> = ({
           onSelectUser={onSelectUser}
           onEditMessage={(msg) => setEditingMessage(msg)}
           onDeleteMessage={(id) => setMessageToDeleteId(id)}
+          onReplyMessage={handleReplyMessage}
         />
       )}
 
@@ -138,6 +142,8 @@ export const ChatWindow: FC<Props> = ({
               onEditMessage={handleEditMessage}
               editingMessage={editingMessage}
               onCancelEdit={() => setEditingMessage(null)}
+              replyingMessage={replyingMessage}
+              onCancelReply={() => setReplyingMessage(null)}
             />
           ) : (
             <JoinChatBar onJoin={() => joinChat(chatId)} isLoading={isJoining} />

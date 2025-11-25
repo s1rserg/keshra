@@ -14,6 +14,7 @@ interface Props {
   onSelectUser: (user: User) => void;
   onEdit: (message: MessageWithAuthorResponseDto) => void;
   onDelete: (messageId: number) => void;
+  onReply: (message: MessageWithAuthorResponseDto) => void;
 }
 
 export const Message: FC<Props> = ({
@@ -25,6 +26,7 @@ export const Message: FC<Props> = ({
   onSelectUser,
   onEdit,
   onDelete,
+  onReply,
 }) => {
   const handleEmojiEvent = (emojiData: EmojiClickData) => {
     onReactionSelect(message.id, emojiData.emoji);
@@ -72,6 +74,7 @@ export const Message: FC<Props> = ({
               isOwnMessage={isOwnMessage}
               onEdit={onEdit}
               onDelete={onDelete}
+              onReply={onReply}
             />
           </ContextMenuContent>
         </ContextMenu>
