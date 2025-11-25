@@ -1,29 +1,45 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from 'components/ui';
-import { Send } from 'lucide-react';
+import { Send, Check } from 'lucide-react';
 import { IconButton } from 'components/IconButton';
 import { useTranslation } from 'react-i18next';
-import { type CreateMessageDto } from 'api';
+import { type CreateMessageDto, type MessageWithAuthorResponseDto } from 'api';
 import { type EmojiClickData } from 'emoji-picker-react';
-import { EmojiPickerButton } from './components';
+import { EmojiPickerButton, EditMessageBar } from './components';
+import type { Nullable } from 'types/utils';
 
 interface Props {
-  onSubmit: (content: string) => Promise<void>;
+  onSendMessage: (content: string) => Promise<void>;
+  onEditMessage: (messageId: number, content: string) => Promise<void>;
+  editingMessage: Nullable<MessageWithAuthorResponseDto>;
+  onCancelEdit: () => void;
 }
 
-export const ChatInput: FC<Props> = ({ onSubmit }) => {
+export const ChatInput: FC<Props> = ({
+  onSendMessage,
+  onEditMessage,
+  editingMessage,
+  onCancelEdit,
+}) => {
   const { t } = useTranslation('chatsPage');
 
   const { register, handleSubmit, reset, setValue, getValues, setFocus } =
     useForm<Pick<CreateMessageDto, 'content'>>();
 
-  const handleSend = handleSubmit(async (data) => {
+  const handleFormSubmit = handleSubmit(async (data) => {
     const content = data.content.trim();
     if (!content) return;
 
-    await onSubmit(content);
-    reset();
+    if (editingMessage) {
+      await onEditMessage(editingMessage.id, content);
+    } else {
+      await onSendMessage(content);
+    }
+
+    if (!editingMessage) {
+      reset();
+    }
   });
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
@@ -32,28 +48,45 @@ export const ChatInput: FC<Props> = ({ onSubmit }) => {
     setFocus('content');
   };
 
+  useEffect(() => {
+    if (editingMessage) {
+      setValue('content', editingMessage.content);
+      setFocus('content');
+    } else {
+      reset();
+    }
+  }, [editingMessage, setValue, setFocus, reset]);
+
   return (
-    <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-      <form onSubmit={(e) => void handleSend(e)} className="flex gap-2 items-center">
-        <div className="relative flex-1">
-          <Input
-            {...register('content')}
-            placeholder={t('sendMessage.placeholders.message')}
-            autoComplete="off"
-            className="pr-10"
-          />
+    <div className="flex flex-col border-t border-gray-200 dark:border-gray-800">
+      <EditMessageBar
+        isEditing={!!editingMessage}
+        onCancel={onCancelEdit}
+        originalContent={editingMessage?.content}
+      />
 
-          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
-            <EmojiPickerButton onEmojiClick={handleEmojiClick} />
+      <div className="p-4 pt-0 bg-background z-10">
+        <form onSubmit={(e) => void handleFormSubmit(e)} className="flex gap-2 items-center">
+          <div className="relative flex-1">
+            <Input
+              {...register('content')}
+              placeholder={t('sendMessage.placeholders.message')}
+              autoComplete="off"
+              className="pr-10"
+            />
+
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
+              <EmojiPickerButton onEmojiClick={handleEmojiClick} />
+            </div>
           </div>
-        </div>
 
-        <IconButton
-          type="submit"
-          label={t('sendMessage.buttons.send')}
-          icon={<Send className="w-4 h-4" />}
-        />
-      </form>
+          <IconButton
+            type="submit"
+            label={editingMessage ? t('editMessage.buttons.save') : t('sendMessage.buttons.send')}
+            icon={editingMessage ? <Check className="w-4 h-4" /> : <Send className="w-4 h-4" />}
+          />
+        </form>
+      </div>
     </div>
   );
 };

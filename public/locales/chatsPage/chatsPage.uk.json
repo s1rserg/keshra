@@ -29,6 +29,12 @@
       "create": "Створити"
     }
   },
+  "messageMenu": {
+    "buttons": {
+      "edit": "Редагувати",
+      "delete": "Видалити"
+    }
+  },
   "sendMessage": {
     "placeholders": {
       "message": "Введіть повідомлення"
@@ -36,6 +42,13 @@
     "buttons": {
       "send": "Надіслати",
       "addEmoji": "Додати емодзі"
+    }
+  },
+  "editMessage": {
+    "title": "Редагування повідомлення",
+    "buttons": {
+      "save": "Зберегти",
+      "cancel": "Скасувати"
     }
   },
   "search": {
@@ -46,6 +59,14 @@
   "tabs": {
     "publicChats": "Публічні чати",
     "users": "Користувачі"
+  },
+  "deleteMessageModal": {
+    "title": "Видалити повідомлення",
+    "description": "Ви впевнені, що хочете видалити це повідомлення? Ця дія не може бути скасована.",
+    "buttons": {
+      "cancel": "Скасувати",
+      "delete": "Видалити"
+    }
   },
   "validation": {
     "titleMin": "Назва має містити мінімум 3 символи",

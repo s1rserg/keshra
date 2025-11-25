@@ -4,3 +4,4 @@ export { ChatAvatarModal } from './ChatAvatarModal';
 export { ChatHeader } from './ChatHeader';
 export { ChatMessagesView } from './ChatMessagesView';
 export { ChatParticipantsView } from './ChatParticipantsView';
+export { DeleteMessageModal } from './DeleteMessageModal';

@@ -7,7 +7,7 @@ import {
   type Reaction,
   type CreateReactionDto,
 } from 'api';
-import { updateMessageInCache } from './helpers';
+import { updateMessageInCache } from '../../../../helpers';
 import { useGetUser } from 'hooks';
 
 export const useAddReactionMutation = (chatId: number) => {
