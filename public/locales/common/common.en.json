@@ -12,5 +12,6 @@
     "add": "Add Avatar",
     "delete": "Delete Avatar",
     "setMain": "Set as Main Avatar"
-  }
+  },
+  "newMessageNotification": "New message in"
 }
