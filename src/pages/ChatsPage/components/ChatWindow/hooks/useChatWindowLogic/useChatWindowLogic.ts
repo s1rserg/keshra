@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   ChatType,
   type ChatDetailsResponse,
@@ -14,7 +14,6 @@ interface UseChatWindowLogicProps {
   recipientUser: Nullable<User>;
   currentUser: User;
   onChatCreated?: (chatId: number) => void;
-  scrollToBottom: () => void;
 }
 
 export const useChatWindowLogic = ({
@@ -22,7 +21,6 @@ export const useChatWindowLogic = ({
   recipientUser,
   currentUser,
   onChatCreated,
-  scrollToBottom,
 }: UseChatWindowLogicProps) => {
   const { mutateAsync: createMessage } = useCreateMessage();
   const { mutateAsync: createPrivateChat } = useCreatePrivateChat();
@@ -73,16 +71,15 @@ export const useChatWindowLogic = ({
 
       await createMessage({ chatId: targetChatId, content, replyToId });
       setReplyingMessage(null);
-      scrollToBottom();
     } catch (_error) {
       /* empty */
     }
   };
 
-  const handleReplyMessage = (msg: MessageWithAuthorResponseDto) => {
+  const handleReplyMessage = useCallback((msg: MessageWithAuthorResponseDto) => {
     setReplyingMessage(msg);
-    if (editingMessage) setEditingMessage(null);
-  };
+    setEditingMessage((prev) => (prev ? null : prev));
+  }, []);
 
   const handleEditMessage = async (messageId: number, content: string) => {
     if (!chatDetails) return;
@@ -104,22 +101,48 @@ export const useChatWindowLogic = ({
     }
   };
 
+  const onSetEditingMessage = useCallback((msg: MessageWithAuthorResponseDto) => {
+    setEditingMessage(msg);
+  }, []);
+
+  const onCancelEdit = useCallback(() => {
+    setEditingMessage(null);
+  }, []);
+
+  const onCancelReply = useCallback(() => {
+    setReplyingMessage(null);
+  }, []);
+
+  const onSetMessageToDelete = useCallback((id: number) => {
+    setMessageToDeleteId(id);
+  }, []);
+
+  const onCancelDelete = useCallback(() => {
+    setMessageToDeleteId(null);
+  }, []);
+
   return {
     isDraft,
     chatId,
     displayData,
-    handleSendMessage,
-    joinChat,
     isJoining,
+    joinChat,
+
+    handleSendMessage,
+
     editingMessage,
-    setEditingMessage,
+    onSetEditingMessage,
+    onCancelEdit,
     handleEditMessage,
+
     messageToDeleteId,
-    setMessageToDeleteId,
-    handleDeleteMessage,
     isDeleting,
+    onSetMessageToDelete,
+    onCancelDelete,
+    handleDeleteMessage,
+
     replyingMessage,
-    setReplyingMessage,
+    onCancelReply,
     handleReplyMessage,
   };
 };

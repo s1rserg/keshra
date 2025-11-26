@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useCallback, useEffect, useState } from 'react';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'components/ui';
 import {
   useChatListSocketSubscription,
@@ -38,19 +38,22 @@ export const ChatsPage: FC = () => {
     setSelectedChatId(id);
   };
 
-  const handleSelectUser = (user: User) => {
-    const privateChat = chats?.find(
-      (chat) => chat.title === user.username && chat.type === ChatType.DIRECT_MESSAGES,
-    );
+  const handleSelectUser = useCallback(
+    (user: User) => {
+      const privateChat = chats?.find(
+        (chat) => chat.title === user.username && chat.type === ChatType.DIRECT_MESSAGES,
+      );
 
-    if (privateChat) {
-      setSelectedChatId(privateChat.id);
-      return;
-    }
+      if (privateChat) {
+        setSelectedChatId(privateChat.id);
+        return;
+      }
 
-    setSelectedChatId(null);
-    setSelectedUser(user);
-  };
+      setSelectedChatId(null);
+      setSelectedUser(user);
+    },
+    [chats],
+  );
 
   const handleChatCreated = (newChatId: number) => {
     setSelectedUser(null);

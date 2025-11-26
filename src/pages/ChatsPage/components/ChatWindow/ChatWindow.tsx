@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useCallback, useState } from 'react';
 import { type ChatDetailsResponse, type User } from 'api';
 import { Loader } from 'components/Loader';
 import { useChatMessages, useChatWindowLogic } from './hooks';
@@ -45,44 +45,43 @@ export const ChatWindow: FC<Props> = ({
     isLoadingMessages,
     isFetchingPreviousPage,
     hasPreviousPage,
-    scrollContainerRef,
-    messagesEndRef,
-    topTriggerRef,
-    showScrollDownButton,
-    scrollToBottom,
+    bottomRef,
+    fetchPreviousPage,
   } = useChatMessages(!chatDetails && !!recipientUser ? null : activeChatId);
 
   const {
     isDraft,
     chatId,
     displayData,
-    handleSendMessage,
-    joinChat,
     isJoining,
+    joinChat,
+    handleSendMessage,
     editingMessage,
-    setEditingMessage,
+    onSetEditingMessage,
+    onCancelEdit,
     handleEditMessage,
     messageToDeleteId,
-    setMessageToDeleteId,
-    handleDeleteMessage,
     isDeleting,
+    onSetMessageToDelete,
+    handleDeleteMessage,
+    onCancelDelete,
     replyingMessage,
-    setReplyingMessage,
+    onCancelReply,
     handleReplyMessage,
   } = useChatWindowLogic({
     chatDetails,
     recipientUser,
     currentUser,
     onChatCreated,
-    scrollToBottom: () => {
-      setViewMode(ViewMode.MESSAGES);
-      scrollToBottom('smooth');
-    },
   });
 
   const handleToggleView = () => {
     setViewMode((prev) => (prev === ViewMode.MESSAGES ? ViewMode.PARTICIPANTS : ViewMode.MESSAGES));
   };
+
+  const onFetchPreviousPageStable = useCallback(() => {
+    void fetchPreviousPage();
+  }, [fetchPreviousPage]);
 
   if (isLoadingDetails) return <Loader />;
 
@@ -122,15 +121,12 @@ export const ChatWindow: FC<Props> = ({
           isDraft={isDraft}
           hasPreviousPage={hasPreviousPage}
           isFetchingPreviousPage={isFetchingPreviousPage}
-          showScrollDownButton={showScrollDownButton}
-          onScrollToBottom={() => scrollToBottom('smooth')}
-          scrollRef={scrollContainerRef}
-          topTriggerRef={topTriggerRef}
-          bottomRef={messagesEndRef}
+          bottomRef={bottomRef}
           onSelectUser={onSelectUser}
-          onEditMessage={(msg) => setEditingMessage(msg)}
-          onDeleteMessage={(id) => setMessageToDeleteId(id)}
+          onEditMessage={onSetEditingMessage}
+          onDeleteMessage={onSetMessageToDelete}
           onReplyMessage={handleReplyMessage}
+          onFetchPreviousPage={onFetchPreviousPageStable}
         />
       )}
 
@@ -141,9 +137,9 @@ export const ChatWindow: FC<Props> = ({
               onSendMessage={handleSendMessage}
               onEditMessage={handleEditMessage}
               editingMessage={editingMessage}
-              onCancelEdit={() => setEditingMessage(null)}
+              onCancelEdit={onCancelEdit}
               replyingMessage={replyingMessage}
-              onCancelReply={() => setReplyingMessage(null)}
+              onCancelReply={onCancelReply}
             />
           ) : (
             <JoinChatBar onJoin={() => joinChat(chatId)} isLoading={isJoining} />
@@ -153,7 +149,7 @@ export const ChatWindow: FC<Props> = ({
 
       <DeleteMessageModal
         isOpen={!!messageToDeleteId}
-        onClose={() => setMessageToDeleteId(null)}
+        onClose={onCancelDelete}
         onConfirm={() => void handleDeleteMessage()}
         isLoading={isDeleting}
       />

@@ -1,11 +1,9 @@
+import { useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetUser } from 'hooks';
 import { useSocket } from 'socket';
 import {
-  useAutoScroll,
   useChatSocketSubscription,
-  useInfiniteScrollTrigger,
-  useLoadOlderMessages,
   useMarkReadOnVisible,
   useSortedMessages,
   useGetMessages,
@@ -27,29 +25,14 @@ export const useChatMessages = (chatId: Nullable<number>) => {
 
   const messages = useSortedMessages(data);
 
-  const scroll = useAutoScroll(isLoadingMessages);
-
-  const { loadOlder } = useLoadOlderMessages({
-    fetchPreviousPage,
-    hasPreviousPage,
-    isFetchingPreviousPage,
-    scrollContainerRef: scroll.scrollContainerRef,
-    messagesCount: messages.length,
-  });
-
-  const topTriggerRef = useInfiniteScrollTrigger({
-    containerRef: scroll.scrollContainerRef,
-    enabled: scroll.hasAutoScrolled && hasPreviousPage,
-    onReach: loadOlder,
-  });
-
   useChatSocketSubscription(socket, chatId, user?.id, queryClient);
 
+  const bottomRef = useRef<HTMLDivElement>(null);
   const lastMessage = messages[messages.length - 1];
   const currentUserId = user?.id || null;
 
   useMarkReadOnVisible({
-    targetRef: scroll.messagesEndRef,
+    targetRef: bottomRef,
     lastMessage,
     currentUserId,
   });
@@ -59,10 +42,7 @@ export const useChatMessages = (chatId: Nullable<number>) => {
     isLoadingMessages,
     isFetchingPreviousPage,
     hasPreviousPage,
-    scrollContainerRef: scroll.scrollContainerRef,
-    messagesEndRef: scroll.messagesEndRef,
-    topTriggerRef,
-    scrollToBottom: scroll.scrollToBottom,
-    showScrollDownButton: scroll.showScrollDownButton,
+    fetchPreviousPage,
+    bottomRef,
   };
 };
