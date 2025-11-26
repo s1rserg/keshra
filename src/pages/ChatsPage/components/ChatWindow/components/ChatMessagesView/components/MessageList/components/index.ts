@@ -1,2 +1,2 @@
-export { Message } from './Message';
-export { DateSeparator } from './DateSeparator';
+export { MessageRow } from './MessageRow';
+export { ScrollDownButton } from './ScrollDownButton';
