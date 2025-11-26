@@ -41,9 +41,7 @@ export const ChatInput: FC<Props> = ({
       await onSendMessage(content, replyingMessage?.id);
     }
 
-    if (!editingMessage) {
-      reset();
-    }
+    reset();
   });
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
