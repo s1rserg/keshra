@@ -26,12 +26,11 @@ export const ChatsPage: FC = () => {
 
   const socket = useSocket();
 
-  useChatListSocketSubscription(chats);
-
   const [selectedChatId, setSelectedChatId] = useState<Nullable<number>>(null);
   const [previousChatId, setPreviousChatId] = useState<Nullable<number>>(null);
   const [selectedUser, setSelectedUser] = useState<Nullable<User>>(null);
 
+  useChatListSocketSubscription(chats, selectedChatId);
   const { data: chatDetails, isLoading: isLoadingChatDetails } = useGetChatDetails(selectedChatId);
 
   const handleSelectChat = (id: number) => {
