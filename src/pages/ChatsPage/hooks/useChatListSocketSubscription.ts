@@ -70,6 +70,7 @@ export const useChatListSocketSubscription = (
               ...chat,
               lastMessagePreview: payload.lastMessagePreview,
               unreadCount: unreadCount,
+              updatedAt: new Date().toISOString(),
             };
           }
           return chat;

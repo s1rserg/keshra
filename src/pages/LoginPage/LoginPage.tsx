@@ -1,8 +1,6 @@
 import { type FC } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { LoginForm } from './components/LoginForm';
-import { useTranslation } from 'react-i18next';
 import { AppRoutes } from 'routes';
 import { useSignInMutation } from './hooks';
 import { localStorageService } from 'utils/LocalStorageService';
@@ -13,7 +11,6 @@ import type { LocationState } from './types';
 export const LoginPage: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation('loginPage');
 
   const signInMutation = useSignInMutation();
 
@@ -26,7 +23,6 @@ export const LoginPage: FC = () => {
       void navigate(state?.from?.pathname || AppRoutes.CHATS, { replace: true });
       return true;
     } catch {
-      toast.error(t('errors.invalidCredentials'));
       return false;
     }
   };
