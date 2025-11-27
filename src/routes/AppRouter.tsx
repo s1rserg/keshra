@@ -1,7 +1,7 @@
 import { AppRoutes } from './config';
 import { AuthLayout, MainLayout } from 'layouts';
 import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
-import { createBrowserRouter, type RouteObject } from 'react-router-dom';
+import { createHashRouter, type RouteObject } from 'react-router-dom';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { ProtectedRoute, PublicRoute } from './components';
 import { ChatsPage } from 'pages/ChatsPage/ChatsPage';
@@ -51,4 +51,4 @@ const APP_ROUTES: RouteObject[] = [
   },
 ];
 
-export const appRouter = createBrowserRouter(APP_ROUTES);
+export const appRouter = createHashRouter(APP_ROUTES);

@@ -6,6 +6,8 @@ import { initReactI18next } from 'react-i18next';
 import { SupportedLanguages } from './types';
 import { APP_LANGUAGE_STORAGE_KEY } from './config';
 
+const baseUrl = import.meta.env.BASE_URL;
+
 void i18next
   .use(initReactI18next)
   .use(Backend)
@@ -15,7 +17,7 @@ void i18next
       useSuspense: true,
     },
     backend: {
-      loadPath: `/locales/{{ns}}/{{ns}}.{{lng}}.json`,
+      loadPath: `${baseUrl}locales/{{ns}}/{{ns}}.{{lng}}.json`,
     },
     debug: false,
 
