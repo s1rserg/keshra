@@ -1,0 +1,84 @@
+{
+  "title": "Chats",
+  "noChatSelected": "Select a chat or search for a user to start messaging",
+  "noMessages": "Send a message to start the conversation",
+  "buttons": {
+    "newChat": "New chat",
+    "joinChat": "Join Chat",
+    "search": "Search",
+    "cancelSearch": "Cancel Search",
+    "scrollDown": "Scroll Down",
+    "showParticipants": "Show participants",
+    "showMessages": "Show messages"
+  },
+  "participants": {
+    "count_one": "{{count}} member",
+    "count_other": "{{count}} members"
+  },
+  "createPublic": {
+    "title": "Create Public Chat",
+    "labels": {
+      "title": "Chat title"
+    },
+    "placeholders": {
+      "title": "Enter chat title"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "create": "Create"
+    }
+  },
+  "messageMenu": {
+    "buttons": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "reply": "Reply"
+    }
+  },
+  "sendMessage": {
+    "placeholders": {
+      "message": "Enter message"
+    },
+    "buttons": {
+      "send": "Send",
+      "addEmoji": "Add Emoji"
+    }
+  },
+  "editMessage": {
+    "title": "Edit Message",
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save"
+    }
+  },
+  "replyMessage": {
+    "buttons": {
+      "cancel": "Cancel"
+    }
+  },
+  "search": {
+    "publicChatsPlaceholder": "Search public chats...",
+    "usersPlaceholder": "Search users...",
+    "noResults": "No data found"
+  },
+  "tabs": {
+    "publicChats": "Public Chats",
+    "users": "Users"
+  },
+  "deleteMessageModal": {
+    "title": "Delete Message",
+    "description": "Are you sure you want to delete this message? This action cannot be undone.",
+    "buttons": {
+      "cancel": "Cancel",
+      "delete": "Delete"
+    }
+  },
+  "validation": {
+    "titleMin": "Title must be at least 3 characters",
+    "receiverIdRequired": "Please select a user for the private chat"
+  },
+  "chatAvatarModal": {
+    "avatarsTitle": "Avatars",
+    "uploadTitle": "Upload Avatar"
+  }
+}

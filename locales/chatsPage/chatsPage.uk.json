@@ -1,0 +1,85 @@
+{
+  "title": "Чати",
+  "noChatSelected": "Оберіть чат або знайдіть користувача для початку діалогу",
+  "noMessages": "Надішліть повідомлення для початку діалогу",
+  "buttons": {
+    "newChat": "Створити чат",
+    "joinChat": "Приєднатися до чату",
+    "search": "Пошук",
+    "cancelSearch": "Скасувати пошук",
+    "scrollDown": "Прокрутити вниз",
+    "showParticipants": "Показати учасників",
+    "showMessages": "Показати повідомлення"
+  },
+  "participants": {
+    "count_one": "{{count}} учасник",
+    "count_few": "{{count}} учасники",
+    "count_many": "{{count}} учасників"
+  },
+  "createPublic": {
+    "title": "Створення публічного чату",
+    "labels": {
+      "title": "Назва чату"
+    },
+    "placeholders": {
+      "title": "Введіть назву чату"
+    },
+    "buttons": {
+      "cancel": "Скасувати",
+      "create": "Створити"
+    }
+  },
+  "messageMenu": {
+    "buttons": {
+      "edit": "Редагувати",
+      "delete": "Видалити",
+      "reply": "Відповісти"
+    }
+  },
+  "sendMessage": {
+    "placeholders": {
+      "message": "Введіть повідомлення"
+    },
+    "buttons": {
+      "send": "Надіслати",
+      "addEmoji": "Додати емодзі"
+    }
+  },
+  "editMessage": {
+    "title": "Редагування повідомлення",
+    "buttons": {
+      "save": "Зберегти",
+      "cancel": "Скасувати"
+    }
+  },
+  "replyMessage": {
+    "buttons": {
+      "cancel": "Скасувати"
+    }
+  },
+  "search": {
+    "publicChatsPlaceholder": "Пошук публічних чатів...",
+    "usersPlaceholder": "Пошук користувачів...",
+    "noResults": "Нічого не знайдено"
+  },
+  "tabs": {
+    "publicChats": "Публічні чати",
+    "users": "Користувачі"
+  },
+  "deleteMessageModal": {
+    "title": "Видалити повідомлення",
+    "description": "Ви впевнені, що хочете видалити це повідомлення? Ця дія не може бути скасована.",
+    "buttons": {
+      "cancel": "Скасувати",
+      "delete": "Видалити"
+    }
+  },
+  "validation": {
+    "titleMin": "Назва має містити мінімум 3 символи",
+    "receiverIdRequired": "Виберіть користувача для приватного чату"
+  },
+  "chatAvatarModal": {
+    "avatarsTitle": "Аватари чату",
+    "uploadTitle": "Завантажити аватар"
+  }
+}

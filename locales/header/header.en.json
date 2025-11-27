@@ -1,0 +1,8 @@
+{
+  "buttons": {
+    "changeLanguage": "Change language to {{lang}}",
+    "theme": "Toggle theme",
+    "profile": "Profile",
+    "logout": "Logout"
+  }
+}

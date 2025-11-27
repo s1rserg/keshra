@@ -1,0 +1,37 @@
+{
+  "title": "User Profile",
+  "labels": {
+    "email": "Email",
+    "name": "Name",
+    "surname": "Surname",
+    "username": "Username",
+    "joined": "Joined",
+    "avatar": "Avatar"
+  },
+  "buttons": {
+    "edit": "Edit Profile",
+    "changeAvatar": "Change Avatar"
+  },
+  "modal": {
+    "title": "Upload Avatar"
+  },
+  "updateModal": {
+    "title": "Edit Profile",
+    "successMsg": "Profile updated successfully!",
+    "labels": {
+      "name": "Name",
+      "surname": "Surname",
+      "username": "Username"
+    },
+    "buttons": {
+      "save": "Save Changes",
+      "cancel": "Cancel"
+    }
+  },
+  "validation": {
+    "nameMin": "Min name length is 2",
+    "surnameMin": "Min surname length is 2",
+    "usernameMin": "Username must be at least 2 characters",
+    "usernameMax": "Username must be at most 20 characters"
+  }
+}
