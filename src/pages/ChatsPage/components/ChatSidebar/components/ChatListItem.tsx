@@ -48,6 +48,12 @@ export const ChatListItem: FC<Props> = ({ chat, isSelected, onClick }) => {
 
         {chat.lastMessagePreview && (
           <div className="text-sm text-gray-500 truncate dark:text-gray-400">
+            {chat.type !== ChatType.DIRECT_MESSAGES &&
+              (chat as PublicChatListResponse).lastMessageAuthor && (
+                <span className="font-medium text-gray-900 dark:text-gray-200 mr-1">
+                  {(chat as PublicChatListResponse).lastMessageAuthor}:
+                </span>
+              )}
             {chat.lastMessagePreview}
           </div>
         )}

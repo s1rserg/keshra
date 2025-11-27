@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useMemo, useState, type FC } from 'react';
 import {
   ChatListItem,
   ChatSidebarSearch,
@@ -42,6 +42,13 @@ export const ChatSidebar: FC<Props> = ({
 
   const [isSearching, setIsSearching] = useState(false);
 
+  const sortedChats = useMemo(() => {
+    if (!chats) return [];
+    return [...chats].sort((a, b) => {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+  }, [chats]);
+
   if (isLoading) return <Loader />;
 
   return (
@@ -62,7 +69,7 @@ export const ChatSidebar: FC<Props> = ({
         <ChatSidebarSearch onSelectChat={onSelectChat} onSelectUser={onSelectUser} />
       ) : (
         <div className="flex-1 overflow-y-auto">
-          {chats?.map((chat) => (
+          {sortedChats.map((chat) => (
             <ChatListItem
               key={chat.id}
               chat={chat}
