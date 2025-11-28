@@ -13,5 +13,7 @@
     "delete": "Delete Avatar",
     "setMain": "Set as Main Avatar"
   },
-  "newMessageNotification": "New message in"
+  "newMessageNotification": "New message in",
+  "newChatNotification": "New chat",
+  "youHaveNewChat": "You have a new private chat"
 }
