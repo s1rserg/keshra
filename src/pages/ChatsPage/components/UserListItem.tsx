@@ -1,7 +1,8 @@
 import { type FC } from 'react';
 import type { User } from 'api';
-import { Avatar, AvatarFallback, AvatarImage } from 'components/ui';
+import { Avatar, AvatarFallback, AvatarImage, Badge } from 'components/ui';
 import { cn } from 'lib/utils';
+import { useIsUserOnline } from '../hooks';
 
 interface Props {
   user: User;
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export const UserListItem: FC<Props> = ({ user, isSelected, isMe = false, onClick, className }) => {
+  const isOnline = useIsUserOnline(user.id);
+
   const displayName = user.name ? `${user.name} ${user.surname || ''}`.trim() : user.username;
 
   return (
@@ -25,13 +28,22 @@ export const UserListItem: FC<Props> = ({ user, isSelected, isMe = false, onClic
       )}
       onClick={!isMe ? onClick : undefined}
     >
-      <Avatar className="h-10 w-10">
-        {user.avatar ? (
-          <AvatarImage src={user.avatar.secureUrl} />
-        ) : (
-          <AvatarFallback>{displayName[0]?.toUpperCase()}</AvatarFallback>
+      <div className="relative flex shrink-0 items-start">
+        <Avatar className="h-10 w-10">
+          {user.avatar ? (
+            <AvatarImage src={user.avatar.secureUrl} />
+          ) : (
+            <AvatarFallback>{displayName[0]?.toUpperCase()}</AvatarFallback>
+          )}
+        </Avatar>
+
+        {isOnline && (
+          <Badge
+            variant="default"
+            className="absolute bottom-0 right-0 h-3 w-3 p-0 rounded-full bg-green-500 border-2 border-white dark:border-gray-900"
+          />
         )}
-      </Avatar>
+      </div>
 
       <div className="flex flex-col min-w-0 overflow-hidden">
         <div className="font-medium truncate text-gray-900 dark:text-gray-100">{displayName}</div>
