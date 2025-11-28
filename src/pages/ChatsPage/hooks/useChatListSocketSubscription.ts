@@ -106,12 +106,31 @@ export const useChatListSocketSubscription = (
       handleChatListUpdate(payload, false);
     };
 
+    const onNewChat = (newChat: ChatListType) => {
+      queryClient.setQueryData(QueryKeys.chats, (oldChats: ChatListType[] | undefined) => {
+        if (!oldChats) return [newChat];
+        return [newChat, ...oldChats];
+      });
+
+      const isWindowFocused = document.hasFocus();
+      if (!isWindowFocused) {
+        notificationService.sendNotification(
+          `${t('newChatNotification')}`,
+          `${t('youHaveNewChat')}`,
+          `${import.meta.env.BASE_URL}icons/handshake.png`,
+        );
+      }
+      audioService.play('message');
+    };
+
     socket.on(ServerToClientEvent.CHAT_DELTA_NEW, onNewMessage);
     socket.on(ServerToClientEvent.CHAT_DELTA_UPDATE, onUpdateMessage);
+    socket.on(ServerToClientEvent.CHAT_NEW, onNewChat);
 
     return () => {
       socket.off(ServerToClientEvent.CHAT_DELTA_NEW, onNewMessage);
       socket.off(ServerToClientEvent.CHAT_DELTA_UPDATE, onUpdateMessage);
+      socket.off(ServerToClientEvent.CHAT_NEW, onNewChat);
     };
   }, [socket, queryClient, user?.username, t]);
 };

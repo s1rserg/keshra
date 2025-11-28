@@ -13,5 +13,7 @@
     "delete": "Видалити аватар",
     "setMain": "Встановити головним аватаром"
   },
-  "newMessageNotification": "Нове повідомлення в"
+  "newMessageNotification": "Нове повідомлення в",
+  "newChatNotification": "Новий чат",
+  "youHaveNewChat": "Ви маєте новий приватний чат"
 }
