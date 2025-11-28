@@ -67,7 +67,11 @@ export const Message: FC<Props> = ({
               onSelectUser={onSelectUser}
             />
           </ContextMenuTrigger>
-          <ContextMenuContent className="w-auto p-0 overflow-hidden border-none bg-transparent shadow-none">
+          <ContextMenuContent
+            className="w-auto p-0 overflow-hidden border-none bg-transparent shadow-none max-w-[95vw]"
+            collisionPadding={16}
+            loop
+          >
             <MessageMenu
               handleEmojiEvent={handleEmojiEvent}
               message={message}

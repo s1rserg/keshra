@@ -68,6 +68,7 @@ export const useChatListSocketSubscription = (
             }
             return {
               ...chat,
+              lastMessageAuthor: payload.lastMessageAuthor,
               lastMessagePreview: payload.lastMessagePreview,
               unreadCount: unreadCount,
               updatedAt: new Date().toISOString(),
@@ -95,7 +96,7 @@ export const useChatListSocketSubscription = (
         notificationService.sendNotification(
           `${t('newMessageNotification')} ${chatTitle}`,
           `${payload.lastMessageAuthor}: ${payload.lastMessagePreview}`,
-          '/icons/handshake.png',
+          `${import.meta.env.BASE_URL}icons/handshake.png`,
         );
         audioService.play('message');
       }

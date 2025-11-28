@@ -1,7 +1,7 @@
 import { type FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from 'components/ui';
-import { Send, Check } from 'lucide-react';
+import { Send, Check, Loader2 } from 'lucide-react';
 import { IconButton } from 'components/IconButton';
 import { useTranslation } from 'react-i18next';
 import { type CreateMessageDto, type MessageWithAuthorResponseDto } from 'api';
@@ -10,6 +10,7 @@ import { EmojiPickerButton, EditMessageBar, ReplyMessageBar } from './components
 import type { Nullable } from 'types/utils';
 
 interface Props {
+  isSending: boolean;
   onSendMessage: (content: string, replyToId?: number) => Promise<void>;
   onEditMessage: (messageId: number, content: string) => Promise<void>;
   editingMessage: Nullable<MessageWithAuthorResponseDto>;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export const ChatInput: FC<Props> = ({
+  isSending,
   onSendMessage,
   onEditMessage,
   editingMessage,
@@ -32,6 +34,8 @@ export const ChatInput: FC<Props> = ({
     useForm<Pick<CreateMessageDto, 'content'>>();
 
   const handleFormSubmit = handleSubmit(async (data) => {
+    if (isSending) return;
+
     const content = data.content.trim();
     if (!content) return;
 
@@ -42,6 +46,7 @@ export const ChatInput: FC<Props> = ({
     }
 
     reset();
+    setTimeout(() => setFocus('content'), 0);
   });
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
@@ -55,12 +60,17 @@ export const ChatInput: FC<Props> = ({
       setValue('content', editingMessage.content);
     }
 
-    const timer = setTimeout(() => {
-      setFocus('content');
-    }, 0);
+    let timer: number;
+    if (!isSending) {
+      timer = setTimeout(() => {
+        setFocus('content');
+      }, 0);
+    }
 
-    return () => clearTimeout(timer);
-  }, [editingMessage, replyingMessage, setValue, setFocus]);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [editingMessage, replyingMessage, setValue, setFocus, isSending]);
 
   return (
     <div className="flex flex-col border-t border-gray-200 dark:border-gray-800">
@@ -79,20 +89,32 @@ export const ChatInput: FC<Props> = ({
           <div className="relative flex-1">
             <Input
               {...register('content')}
+              disabled={isSending}
               placeholder={t('sendMessage.placeholders.message')}
               autoComplete="off"
               className="pr-10"
             />
 
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
-              <EmojiPickerButton onEmojiClick={handleEmojiClick} />
+              <div className={isSending ? 'pointer-events-none opacity-50' : ''}>
+                <EmojiPickerButton onEmojiClick={handleEmojiClick} />
+              </div>
             </div>
           </div>
 
           <IconButton
             type="submit"
+            disabled={isSending}
             label={editingMessage ? t('editMessage.buttons.save') : t('sendMessage.buttons.send')}
-            icon={editingMessage ? <Check className="w-4 h-4" /> : <Send className="w-4 h-4" />}
+            icon={
+              isSending ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : editingMessage ? (
+                <Check className="w-4 h-4" />
+              ) : (
+                <Send className="w-4 h-4" />
+              )
+            }
           />
         </form>
       </div>

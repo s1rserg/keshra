@@ -8,7 +8,7 @@ import { audioService } from 'utils/AudioService';
 export const MainLayout: FC = () => {
   useGetUser();
 
-  audioService.register('message', '/sounds/alert.mp3');
+  audioService.register('message', `${import.meta.env.BASE_URL}sounds/alert.mp3`);
 
   useEffect(() => {
     if (notificationService.permission === 'default') {

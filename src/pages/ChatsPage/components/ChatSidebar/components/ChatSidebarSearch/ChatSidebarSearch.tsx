@@ -24,11 +24,17 @@ export const ChatSidebarSearch: FC<Props> = ({ onSelectChat, onSelectUser }) => 
 
   const debouncedQuery = useDebounce(inputValue, 500);
 
+  const isChatsTab = activeTab === SearchTab.CHATS;
+  const isUsersTab = activeTab === SearchTab.USERS;
+
   const { data: chatResults, isLoading: isLoadingChats } = useSearchPublicChats(
-    activeTab === SearchTab.CHATS ? debouncedQuery : '',
+    isChatsTab ? debouncedQuery : '',
+    isChatsTab,
   );
+
   const { data: userResults, isLoading: isLoadingUsers } = useSearchUsers(
-    activeTab === SearchTab.USERS ? debouncedQuery : '',
+    isUsersTab ? debouncedQuery : '',
+    isUsersTab,
   );
 
   const isLoading = activeTab === SearchTab.CHATS ? isLoadingChats : isLoadingUsers;

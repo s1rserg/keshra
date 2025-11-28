@@ -19,7 +19,7 @@ export const MessageContent: FC<Props> = ({ message, isOwnMessage, onSelectUser 
   return (
     <div
       className={cn(
-        'relative px-3 py-1.5 rounded-2xl shadow-sm min-w-[120px] text-left break-words',
+        'relative px-3 py-1.5 rounded-2xl shadow-sm min-w-[120px] text-left break-words select-none',
         isOwnMessage
           ? 'bg-blue-500 text-white dark:bg-blue-600 rounded-br-sm'
           : 'bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 rounded-bl-sm border border-gray-100 dark:border-gray-700/50',

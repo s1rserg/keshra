@@ -25,7 +25,10 @@ export const useUpdateMessage = () => {
         queryClient.getQueryData<InfiniteData<MessageWithAuthorResponseDto[]>>(queryKey);
 
       queryClient.setQueryData<InfiniteData<MessageWithAuthorResponseDto[]>>(queryKey, (old) =>
-        updateMessageInCache(old, id, (msg) => ({ ...msg, content: data.content, isEdited: true })),
+        updateMessageInCache(old, id, (msg) => ({
+          ...msg,
+          content: data.content,
+        })),
       );
 
       return { previousMessages };
@@ -39,7 +42,11 @@ export const useUpdateMessage = () => {
     onSuccess: (updatedMessage, { chatId }) => {
       const queryKey = [...QueryKeys.messages, chatId];
       queryClient.setQueryData<InfiniteData<MessageWithAuthorResponseDto[]>>(queryKey, (old) =>
-        updateMessageInCache(old, updatedMessage.id, () => updatedMessage),
+        updateMessageInCache(old, updatedMessage.id, (msg) => ({
+          ...msg,
+          content: updatedMessage.content,
+          updatedAt: updatedMessage.updatedAt,
+        })),
       );
     },
   });
