@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { userApiService, httpClient, QueryKeys, type User } from 'api';
 import { useGetUser } from 'hooks';
 
-export const useSearchUsers = (query: string) => {
+export const useSearchUsers = (query: string, isEnabled = true) => {
   const { data: currentUser } = useGetUser();
 
   return useQuery({
@@ -11,7 +11,7 @@ export const useSearchUsers = (query: string) => {
       const res = await httpClient<User[]>(userApiService.fetchAll({ search: query }));
       return res.data;
     },
-    enabled: !!query && query.trim().length > 0,
+    enabled: isEnabled,
     select: (users) => {
       if (!currentUser) return users;
       return users.filter((user) => user.id !== currentUser.id);

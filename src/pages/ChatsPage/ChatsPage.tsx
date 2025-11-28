@@ -92,7 +92,7 @@ export const ChatsPage: FC = () => {
 
   return (
     <ResizablePanelGroup direction="horizontal" className="h-full">
-      <ResizablePanel defaultSize={25} minSize={15} maxSize={35} className="h-full">
+      <ResizablePanel defaultSize={25} maxSize={35} className="h-full">
         <ChatSidebar
           chats={chats}
           isLoading={isLoadingChats}

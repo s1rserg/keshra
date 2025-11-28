@@ -27,7 +27,7 @@ export const MessageMenu: FC<Props> = ({
   const { t } = useTranslation('chatsPage');
 
   return (
-    <>
+    <div className="flex flex-col gap-2 w-[85vw] sm:w-[300px] mx-auto">
       <div className="mb-2 shadow-lg rounded-lg overflow-hidden">
         <Picker
           reactionsDefaultOpen={true}
@@ -35,12 +35,14 @@ export const MessageMenu: FC<Props> = ({
           onEmojiClick={handleEmojiEvent}
           lazyLoadEmojis={true}
           theme={theme as Theme}
-          width={300}
+          width="100%"
           height={350}
+          autoFocusSearch={false}
+          searchDisabled={false}
         />
       </div>
 
-      <div className="bg-white dark:bg-gray-900 border dark:border-gray-700 rounded-md shadow-xl p-1 w-[300px]">
+      <div className="bg-white dark:bg-gray-900 border dark:border-gray-700 rounded-md shadow-xl p-1 w-full">
         <ContextMenuItem onClick={() => onReply(message)} className="cursor-pointer gap-2">
           <Reply className="w-4 h-4" />
           {t('messageMenu.buttons.reply')}
@@ -62,6 +64,6 @@ export const MessageMenu: FC<Props> = ({
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };

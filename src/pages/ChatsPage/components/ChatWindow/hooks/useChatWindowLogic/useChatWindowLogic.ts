@@ -22,10 +22,10 @@ export const useChatWindowLogic = ({
   currentUser,
   onChatCreated,
 }: UseChatWindowLogicProps) => {
-  const { mutateAsync: createMessage } = useCreateMessage();
+  const { mutateAsync: createMessage, isPending: isCreating } = useCreateMessage();
   const { mutateAsync: createPrivateChat } = useCreatePrivateChat();
   const { mutate: joinChat, isPending: isJoining } = useJoinChat();
-  const { mutateAsync: updateMessage } = useUpdateMessage();
+  const { mutateAsync: updateMessage, isPending: isUpdating } = useUpdateMessage();
   const { mutateAsync: deleteMessage, isPending: isDeleting } = useDeleteMessage();
 
   const [editingMessage, setEditingMessage] =
@@ -128,6 +128,7 @@ export const useChatWindowLogic = ({
     isJoining,
     joinChat,
 
+    isSending: isCreating || isUpdating,
     handleSendMessage,
 
     editingMessage,

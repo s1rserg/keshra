@@ -55,6 +55,7 @@ export const ChatWindow: FC<Props> = ({
     displayData,
     isJoining,
     joinChat,
+    isSending,
     handleSendMessage,
     editingMessage,
     onSetEditingMessage,
@@ -134,6 +135,7 @@ export const ChatWindow: FC<Props> = ({
         <>
           {displayData.isMember ? (
             <ChatInput
+              isSending={isSending}
               onSendMessage={handleSendMessage}
               onEditMessage={handleEditMessage}
               editingMessage={editingMessage}

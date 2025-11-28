@@ -7,6 +7,7 @@ import {
   type CreatePublicChatDto,
   type PrivateChatListResponse,
   type PublicChatListResponse,
+  type User,
 } from 'api';
 
 export const useCreatePrivateChat = () => {
@@ -15,10 +16,22 @@ export const useCreatePrivateChat = () => {
   return useMutation({
     mutationFn: async (data: CreatePrivateChatDto) =>
       httpClient<PrivateChatListResponse>(chatApiService.createPrivate(data)),
-    onSuccess: (response) => {
+
+    onSuccess: (response, variables) => {
+      const newChat = response.data;
+
+      const cachedReceiver = queryClient
+        .getQueriesData<User[]>({ queryKey: QueryKeys.users })
+        .flatMap(([_, users]) => users ?? [])
+        .find((user) => user.id === variables.receiverId);
+
+      if (cachedReceiver?.avatar) {
+        newChat.avatar = cachedReceiver.avatar;
+      }
+
       queryClient.setQueryData<PrivateChatListResponse[] | undefined>(
         QueryKeys.chats,
-        (old = []) => [...old, response.data],
+        (old = []) => [...old, newChat],
       );
     },
   });

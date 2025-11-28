@@ -44,7 +44,11 @@ export const useChatSocketSubscription = (
       queryClient.setQueryData(
         queryKey,
         (old: InfiniteData<MessageWithAuthorResponseDto[]> | undefined) =>
-          updateMessageInCache(old, updatedMsg.id, () => updatedMsg),
+          updateMessageInCache(old, updatedMsg.id, (msg) => ({
+            ...msg,
+            content: updatedMsg.content,
+            updatedAt: updatedMsg.updatedAt,
+          })),
       );
     };
 
