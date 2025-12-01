@@ -9,6 +9,7 @@ export const MainLayout: FC = () => {
   useGetUser();
 
   audioService.register('message', `${import.meta.env.BASE_URL}sounds/alert.mp3`);
+  audioService.register('ringtone', `${import.meta.env.BASE_URL}sounds/ringtone.mp3`);
 
   useEffect(() => {
     if (notificationService.permission === 'default') {

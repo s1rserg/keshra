@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ChatType, type ChatDetailsResponse } from 'api';
-import { InfoIcon, MessageSquareIcon } from 'lucide-react';
+import { InfoIcon, MessageSquareIcon, Video } from 'lucide-react';
 import { ChatAvatar } from './components';
 import type { Nullable, ValueOf } from 'types/utils';
 import { IconButton } from 'components/IconButton';
@@ -18,6 +18,8 @@ interface Props {
   currentView: ValueOf<typeof ViewMode>;
   onToggleView: () => void;
   onAvatarClick: () => void;
+  onVideoCallStart: () => void;
+  isCallActive: boolean;
 }
 
 export const ChatHeader: FC<Props> = ({
@@ -29,6 +31,8 @@ export const ChatHeader: FC<Props> = ({
   currentView,
   onToggleView,
   onAvatarClick,
+  onVideoCallStart,
+  isCallActive,
 }) => {
   const { t } = useTranslation('chatsPage');
 
@@ -54,6 +58,16 @@ export const ChatHeader: FC<Props> = ({
 
         <span className="font-bold truncate">{title}</span>
       </div>
+
+      {isDirectMessage && (
+        <IconButton
+          size="icon"
+          onClick={onVideoCallStart}
+          disabled={isCallActive}
+          icon={<Video className="w-5 h-5 text-gray-600" />}
+          label={t('buttons.startVideoCall')}
+        />
+      )}
 
       {!isDraft && !isDirectMessage && (
         <IconButton

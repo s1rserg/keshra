@@ -9,7 +9,8 @@
     "cancelSearch": "Скасувати пошук",
     "scrollDown": "Прокрутити вниз",
     "showParticipants": "Показати учасників",
-    "showMessages": "Показати повідомлення"
+    "showMessages": "Показати повідомлення",
+    "startVideoCall": "Почати відеозв'язок"
   },
   "participants": {
     "count_one": "{{count}} учасник",
@@ -72,6 +73,23 @@
     "buttons": {
       "cancel": "Скасувати",
       "delete": "Видалити"
+    }
+  },
+  "videoCall": {
+    "incomingTitle": "Вхідний дзвінок від {{name}}",
+    "activeTitle": "Відеочат з {{name}}",
+    "connecting": "З'єднання...",
+    "you": "Ви",
+    "remote": "Співрозмовник",
+    "unknownUser": "Невідомий користувач",
+    "startCallError": "Помилка початку зв'язку.",
+    "answerCallError": "Помилка відповіді на зв'язок.",
+    "playError": "Автоматичне відтворення відео не вдалося.",
+    "callEndedRemote": "Зв'язок завершено віддаленим користувачем.",
+    "buttons": {
+      "answer": "Відповісти",
+      "reject": "Відхилити",
+      "end": "Завершити"
     }
   },
   "validation": {

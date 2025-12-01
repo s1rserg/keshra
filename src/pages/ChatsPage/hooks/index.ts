@@ -4,3 +4,4 @@ export { useCreatePrivateChat, useCreatePublicChat } from './useChatsMutations';
 export { useChatListSocketSubscription } from './useChatListSocketSubscription';
 export { useGetOnlineUsers } from './useGetOnlineUsers';
 export { useIsUserOnline } from './useIsUserOnline';
+export { useVideoCalls } from './useVideoCalls';
