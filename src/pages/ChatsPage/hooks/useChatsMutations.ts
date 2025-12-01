@@ -19,6 +19,7 @@ export const useCreatePrivateChat = () => {
 
     onSuccess: (response, variables) => {
       const newChat = response.data;
+      newChat.partnerUserId = variables.receiverId;
 
       const cachedReceiver = queryClient
         .getQueriesData<User[]>({ queryKey: QueryKeys.users })

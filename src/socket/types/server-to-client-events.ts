@@ -5,6 +5,7 @@ import type {
   Reaction,
 } from 'api';
 import type { ServerToClientEvent } from './events';
+import type { CallSignalPayload } from './client-to-server-events';
 
 export interface ChatDeltaNewPayload {
   chatId: number;
@@ -44,4 +45,9 @@ export interface ServerToClientEvents {
   [ServerToClientEvent.CHAT_DELTA_UPDATE]: (payload: ChatDeltaUpdatePayload) => void;
   [ServerToClientEvent.CHAT_PRESENCE_USER_ONLINE]: (userId: number) => void;
   [ServerToClientEvent.CHAT_PRESENCE_USER_OFFLINE]: (userId: number) => void;
+
+  [ServerToClientEvent.CALL_MADE]: (payload: CallSignalPayload) => void;
+  [ServerToClientEvent.CALL_ANSWERED]: (payload: CallSignalPayload) => void;
+  [ServerToClientEvent.CALL_ICE_CANDIDATE]: (payload: CallSignalPayload) => void;
+  [ServerToClientEvent.CALL_ENDED]: (chatId: number) => void;
 }

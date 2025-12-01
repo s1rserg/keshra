@@ -1,4 +1,4 @@
-import { type FC, useCallback, useEffect, useState } from 'react';
+import { type FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'components/ui';
 import {
   useChatListSocketSubscription,
@@ -6,8 +6,9 @@ import {
   useGetChatDetails,
   useGetChats,
   useGetOnlineUsers,
+  useVideoCalls,
 } from './hooks';
-import { ChatSidebar, ChatWindow } from './components';
+import { ChatSidebar, ChatWindow, VideoCallModal } from './components';
 import { ChatType, type CreatePublicChatDto, type User } from 'api';
 import type { Nullable } from 'types/utils';
 import { useGetUser } from 'hooks';
@@ -26,6 +27,10 @@ export const ChatsPage: FC = () => {
 
   const socket = useSocket();
 
+  const webRTC = useVideoCalls(user?.id);
+  const { isCallActive, isReceivingCall, localStream, activePartnerId } = webRTC;
+  const isVideoModalOpen = isCallActive || isReceivingCall || !!localStream;
+
   const [selectedChatId, setSelectedChatId] = useState<Nullable<number>>(null);
   const [previousChatId, setPreviousChatId] = useState<Nullable<number>>(null);
   const [selectedUser, setSelectedUser] = useState<Nullable<User>>(null);
@@ -37,6 +42,16 @@ export const ChatsPage: FC = () => {
     setSelectedUser(null);
     setSelectedChatId(id);
   };
+
+  const remoteUserName = useMemo(() => {
+    if (!activePartnerId || !chats) return t('videoCall.unknownUser');
+    const chat = chats.find((c) => {
+      if ('partnerUserId' in c) return c.partnerUserId === activePartnerId;
+      return false;
+    });
+
+    return chat ? chat.title : t('videoCall.unknownUser');
+  }, [activePartnerId, chats, t]);
 
   const handleSelectUser = useCallback(
     (user: User) => {
@@ -69,6 +84,12 @@ export const ChatsPage: FC = () => {
     }
   };
 
+  const handleStartVideoCall = (receiverId: number) => {
+    if (selectedChatId) {
+      void webRTC.startCall(receiverId);
+    }
+  };
+
   useEffect(() => {
     if (!socket) return;
 
@@ -91,41 +112,51 @@ export const ChatsPage: FC = () => {
   if (!user) return null;
 
   return (
-    <ResizablePanelGroup direction="horizontal" className="h-full">
-      <ResizablePanel defaultSize={25} maxSize={35} className="h-full">
-        <ChatSidebar
-          chats={chats}
-          isLoading={isLoadingChats}
-          selectedChatId={selectedChatId}
-          onSelectChat={handleSelectChat}
-          onSelectUser={handleSelectUser}
-          isCreatingChat={isCreatingChat}
-          onCreatePublicChat={handleCreatePublicChat}
-        />
-      </ResizablePanel>
-
-      <ResizableHandle withHandle />
-
-      <ResizablePanel defaultSize={75} className="h-full">
-        {selectedChatId && isLoadingChatDetails && <Loader />}
-        {(chatDetails || selectedUser) && (
-          <ChatWindow
-            key={chatDetails?.id ?? `user-${selectedUser?.id}`}
-            chatDetails={chatDetails}
-            recipientUser={selectedUser}
-            isLoading={!!selectedChatId && isLoadingChatDetails}
-            currentUser={user}
-            onChatCreated={handleChatCreated}
+    <>
+      <ResizablePanelGroup direction="horizontal" className="h-full">
+        <ResizablePanel defaultSize={25} maxSize={35} className="h-full">
+          <ChatSidebar
+            chats={chats}
+            isLoading={isLoadingChats}
+            selectedChatId={selectedChatId}
+            onSelectChat={handleSelectChat}
             onSelectUser={handleSelectUser}
+            isCreatingChat={isCreatingChat}
+            onCreatePublicChat={handleCreatePublicChat}
           />
-        )}
+        </ResizablePanel>
 
-        {!selectedChatId && !selectedUser && (
-          <div className="h-full flex items-center justify-center text-gray-400">
-            {t('noChatSelected')}
-          </div>
-        )}
-      </ResizablePanel>
-    </ResizablePanelGroup>
+        <ResizableHandle withHandle />
+
+        <ResizablePanel defaultSize={75} className="h-full">
+          {selectedChatId && isLoadingChatDetails && <Loader />}
+          {(chatDetails || selectedUser) && (
+            <ChatWindow
+              key={chatDetails?.id ?? `user-${selectedUser?.id}`}
+              chatDetails={chatDetails}
+              recipientUser={selectedUser}
+              isLoading={!!selectedChatId && isLoadingChatDetails}
+              currentUser={user}
+              onChatCreated={handleChatCreated}
+              onSelectUser={handleSelectUser}
+              onVideoCallStart={handleStartVideoCall}
+              isCallActive={isCallActive}
+            />
+          )}
+
+          {!selectedChatId && !selectedUser && (
+            <div className="h-full flex items-center justify-center text-gray-400">
+              {t('noChatSelected')}
+            </div>
+          )}
+        </ResizablePanel>
+      </ResizablePanelGroup>
+      <VideoCallModal
+        isOpen={isVideoModalOpen}
+        onClose={webRTC.endCall}
+        webRTC={webRTC}
+        remoteUserName={remoteUserName}
+      />
+    </>
   );
 };

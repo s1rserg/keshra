@@ -23,6 +23,8 @@ interface Props {
   currentUser: User;
   onChatCreated?: (chatId: number) => void;
   onSelectUser: (user: User) => void;
+  onVideoCallStart: (receiverId: number) => void;
+  isCallActive: boolean;
 }
 
 export const ChatWindow: FC<Props> = ({
@@ -32,6 +34,8 @@ export const ChatWindow: FC<Props> = ({
   currentUser,
   onChatCreated,
   onSelectUser,
+  onVideoCallStart,
+  isCallActive,
 }) => {
   const { t } = useTranslation('chatsPage');
   const { isOpen: isAvatarModalOpen, open: openAvatarModal, close: closeAvatarModal } = useModal();
@@ -76,6 +80,11 @@ export const ChatWindow: FC<Props> = ({
     onChatCreated,
   });
 
+  const handleVideoCallClick = () => {
+    if (!displayData?.partnerUserId) return;
+    onVideoCallStart(displayData.partnerUserId);
+  };
+
   const handleToggleView = () => {
     setViewMode((prev) => (prev === ViewMode.MESSAGES ? ViewMode.PARTICIPANTS : ViewMode.MESSAGES));
   };
@@ -105,6 +114,8 @@ export const ChatWindow: FC<Props> = ({
         currentView={viewMode}
         onToggleView={handleToggleView}
         onAvatarClick={openAvatarModal}
+        onVideoCallStart={handleVideoCallClick}
+        isCallActive={isCallActive}
       />
 
       {viewMode === ViewMode.PARTICIPANTS && chatDetails ? (
