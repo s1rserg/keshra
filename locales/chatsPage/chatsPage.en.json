@@ -9,7 +9,8 @@
     "cancelSearch": "Cancel Search",
     "scrollDown": "Scroll Down",
     "showParticipants": "Show participants",
-    "showMessages": "Show messages"
+    "showMessages": "Show messages",
+    "startVideoCall": "Start Video Call"
   },
   "participants": {
     "count_one": "{{count}} member",
@@ -71,6 +72,23 @@
     "buttons": {
       "cancel": "Cancel",
       "delete": "Delete"
+    }
+  },
+  "videoCall": {
+    "incomingTitle": "Incoming Call from {{name}}",
+    "activeTitle": "Video Chat with {{name}}",
+    "connecting": "Connecting...",
+    "you": "You",
+    "remote": "Remote",
+    "unknownUser": "Unknown User",
+    "startCallError": "Error starting call.",
+    "answerCallError": "Error answering call.",
+    "playError": "Automatically play video failed.",
+    "callEndedRemote": "Call ended by remote user.",
+    "buttons": {
+      "answer": "Answer",
+      "reject": "Reject",
+      "end": "End Call"
     }
   },
   "validation": {
